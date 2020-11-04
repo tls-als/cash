@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="kr.co.gdu.cash.mapper.CashbookMapper">	
+ 
+ 	<insert id="insertCashbook" parameterType="kr.co.gdu.cash.vo.Cashbook">
+ 		INSERT INTO cashbook(
+ 			cashbook_kind,
+ 			category_name,
+ 			cashbook_price,
+ 			cashbook_content,
+ 			cashbook_date,
+ 			create_date,
+ 			update_date
+ 		) VALUES (
+ 			#{cashbookKind},
+ 			#{categoryName},
+ 			#{cashbookPrice},
+ 			#{cashbookContent},
+ 			#{cashbookDate},
+ 			NOW(),
+ 			NOW()
+ 		)
+ 	</insert>
+ 
+ 	<select id="selectCashbookListByDay" parameterType="java.util.Map" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT cashbook_id cashbookId, 
+ 				cashbook_kind cashbookKind, 
+ 				category_name categoryName, 
+ 				cashbook_price cashbookPrice, 
+ 				cashbook_content cashbookContent
+		FROM cashbook
+		WHERE YEAR(cashbook_date)=#{currentYear}
+		AND MONTH(cashbook_date)=#{currentMonth}
+		AND DAY(cashbook_date)=#{currentDay}
+ 	</select>
+ 
+ 	<select id="selectCashListByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+	 	SELECT cashbook_kind cashbookKind, 
+	 			sum(cashbook_price) cashbookPrice, 
+	 			DAY(cashbook_date) dday
+		FROM cashbook
+		WHERE YEAR(cashbook_date)=#{currentYear}
+		AND MONTH(cashbook_date)=#{currentMonth}
+		GROUP BY DAY(cashbook_date), cashbook_kind
+ 	</select>
+ 	
+ 	<select id="selectCashInOutList" resultType="java.util.Map">
+ 		SELECT 
+			DATE_FORMAT(cashbook_date, '%Y.%m') AS "날짜"
+			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)) AS "수입"
+			,SUM((case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "지출"
+			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)
+				-(case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "합계"
+		FROM cashbook
+		GROUP BY DATE_FORMAT(cashbook_date, '%Y.%m')
+		LIMIT 3
+ 	</select>
+ 	
+ 	<select id="selectSumCashbookPriceByInOut" parameterType="java.util.Map" resultType="int">
+ 		SELECT NVL(SUM(cashbook_price), 0)
+		FROM cashbook
+		WHERE cashbook_kind = #{cashbookKind}	<!--  map.get("cashbookKind") -->
+		AND YEAR(cashbook_date)= #{currentYear}
+		AND MONTH(cashbook_date)= #{currentMonth}
+ 	</select>
+ 
+ </mapper>
