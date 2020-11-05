@@ -22,14 +22,15 @@ public class CashbookController {
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
 	
-	@PostMapping("/addCashbook")
+	// 버튼클릭 post 형태로 요청드러왔을 때
+	@PostMapping("/admin/addCashbook")
 	public String addCashbook(Cashbook cashbook) {	// 커맨드객체(이름과 같은 것을 request.getParamer 값을 만들어줌. cashbook.get)
 		//System.out.println(cashbook);
 		cashbookService.addCashbook(cashbook);
-		return "redirect:/cashbookByMonth";	// 리다이렉트(결과물이 없을시) => response.sendRedirect();
+		return "redirect:/admin/cashbookByMonth";	// 리다이렉트(결과물이 없을시) => response.sendRedirect();
 	}
 	
-	@GetMapping("/addCashbook")
+	@GetMapping("/admin/addCashbook")
 	public String addCashbook(Model model,
 			@RequestParam(name = "currentYear", required = true) int currentYear,
 			@RequestParam(name = "currentMonth", required = true) int currentMonth,
@@ -39,7 +40,7 @@ public class CashbookController {
 		return "addCashbook";	// 포워딩 => forward
 	}
 	
-	@GetMapping("/cashbookByDay")
+	@GetMapping("/admin/cashbookByDay")
 	public String cashbookByDay(Model model,
 								@RequestParam(name = "currentYear", required = true) int currentYear,
 								@RequestParam(name = "currentMonth", required = true) int currentMonth,
@@ -49,7 +50,7 @@ public class CashbookController {
 		return "cashbookByDay";
 	}
 	
-	@GetMapping(value="/cashbookByMonth")	// {"/","/index"}와 동일
+	@GetMapping(value="/admin/cashbookByMonth")	// {"/","/index"}와 동일
 	public String cashbookByMonth(Model model, //index를 요청하면 리턴값은 String으로 리턴. Model은 Map타입
 			@RequestParam(name = "currentYear", defaultValue = "-1") int currentYear,	// request.getParameter
 			@RequestParam(name = "currentMonth", defaultValue = "-1") int currentMonth) {	// 0~13월까지 넘어올 수 있음. request.getParameter

@@ -5,7 +5,10 @@
 	    <a class="nav-link" href="/">index</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="/cashbookByMonth">cashbook</a>
+	    <a class="nav-link" href="/admin/cashbookByMonth">cashbook</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/admin/logout">logout</a>
 	  </li>
 	</ul>
 </div>

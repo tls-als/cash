@@ -27,9 +27,9 @@
 		1. 이전달 클릭시 request에 현재 연도와 (이번달-1)
 		2. currentYear: 현재 연도, currentMonth: 현재 달
 	 -->
-		<a href="/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth-1}">[이전달]</a> 
+		<a href="/admin/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth-1}">[이전달]</a> 
 		${currentYear}년 ${currentMonth}월
-		<a href="/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth+1}">[다음달]</a>
+		<a href="/admin/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth+1}">[다음달]</a>
 	</h3>
 	<div>
 		<table class="table table-bordered table-dark">
@@ -56,7 +56,7 @@
 					 	<c:if test="${i-(firstDayOfWeek-1) > 0}">
 					 		<td width="100">
 						 		<div><!-- 날짜 -->
-						 			<a href="/cashbookByDay?currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${i-(firstDayOfWeek-1)}">${i-(firstDayOfWeek-1)}</a>
+						 			<a href="/admin/cashbookByDay?currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${i-(firstDayOfWeek-1)}">${i-(firstDayOfWeek-1)}</a>
 						 		</div>
 						 		<!-- 지출,수입 목록이 있는 날짜를 cashList에서 검색 -->
 						 		<c:forEach var="c" items="${cashList}">
