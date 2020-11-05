@@ -1,6 +1,7 @@
 package kr.co.gdu.cash.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,10 @@ import kr.co.gdu.cash.vo.Notice;
 public interface NoticeMapper {
 	// index 화면에 최근 5개의 공지를 보여주는 메서드(인터페이스-추상메서드)
 	List<Notice> selectLatesNoticeList();
+	// 공지사항 리스트를 페이지 별로 조회하는 메서드
+	List<Notice> selectNoticeListByPage(Map<String, Integer> map);	// 페이징을 위한 시작페이지, 한페이지의 행의수를 받기에 Integer. 검색도 받으려면 Object
+	// 공지사항 리스트 전체 수(카운팅)
+	int selectNoticeListCount();
+	// 공지리스트 추가
+	int insertNoticeList(Notice notice); // select를 제외한 모든 값의 리턴은 int(성공한 행의 수를 리턴하기때문)
 }

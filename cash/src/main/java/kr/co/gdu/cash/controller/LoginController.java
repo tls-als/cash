@@ -45,7 +45,7 @@ public class LoginController {
 	// 로그아웃시
 	@GetMapping("/admin/logout")
 	public String logout(HttpSession session) {	// 서블릿에 있는 것을 가져와서 사용 가능
-		session.invalidate();	// 세션 죽이기
+		session.invalidate();	// 세션 종료
 		return "redirect:/";	// 로그인페이지로 리다이렉트
 	}
 }

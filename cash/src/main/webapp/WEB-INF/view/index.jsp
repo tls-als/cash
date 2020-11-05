@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>index</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<h1>index</h1>
-	<!-- 공지 -->
+	<!-- 공지사항 -->
+	<div><a href="/admin/noticeList">more</a></div>
 	<div>
 		<table border="1">
 			<thead>
@@ -30,7 +31,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-	</div>
+	</div><br>
 	<!-- 수입,지출 -->
 	<div>
 		<table border="1">
