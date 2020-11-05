@@ -17,11 +17,29 @@ import kr.co.gdu.cash.vo.Notice;
 public class NoticeService {
 	@Autowired private NoticeMapper noticeMapper;	// 스프링이 갖고 있는 객체 중에 NoticeMapper의 객체를 찾아서 noticeMapper에 주입
 	@Autowired private CashbookMapper cashbookMapper;
+	// 공지 수정 메서드
+	public int setUpdateNoticeList(Notice notice) {	
+		return noticeMapper.updateNoticeList(notice);
+	}
+	// 공지 수정폼에 출력하는 공지리스트
+	public List<Notice> getSelectModifyNoticeList(int noticeId) {
+		List<Notice> noticeList = noticeMapper.selectModifyNoticeList(noticeId);
+		System.out.println(noticeList + "<<= 수정폼을 위한 공지리스트");
+		return noticeList;
+	}
+	// 공지 삭제
+	public int setDeleteNoticeList(int noticeId) {
+		return noticeMapper.deleteNoticeList(noticeId);
+	}
+	// 공지사항 상세보기
+	public List<Notice> getSelectDetailNoticeList(int noticeId) {
+		List<Notice> list = noticeMapper.selectDetailNoticeList(noticeId);
+		return list;
+	}
 	// 공지사항 추가
 	public int setinsertNotice(Notice notice) {	// select를 제외한 모든 값의 리턴은 int(성공한 행의 수를 리턴하기때문)
 		return noticeMapper.insertNoticeList(notice);
 	}
-	
 	// 공지리스트 전체 수
 	public int getNoticeListCount() {
 		int listCnt = noticeMapper.selectNoticeListCount();

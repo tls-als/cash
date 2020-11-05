@@ -7,6 +7,7 @@
 <title>addNotice</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<h1>공지사항 입력</h1>
 	<form action="/admin/addNotice" method="post">
 		<table>

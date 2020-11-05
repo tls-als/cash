@@ -14,6 +14,14 @@ import kr.co.gdu.cash.vo.Notice;
  */
 @Mapper
 public interface NoticeMapper {
+	// 공지사항 수정
+	int updateNoticeList(Notice notice);
+	// 공지수정을 위한 번호에 따른 공지리스트 가져오기
+	List<Notice> selectModifyNoticeList(int noticeId);
+	// 공지사항 삭제하기
+	int deleteNoticeList(int noticeId);
+	// 공지사항 상세보기
+	List<Notice> selectDetailNoticeList(int noticeId);
 	// index 화면에 최근 5개의 공지를 보여주는 메서드(인터페이스-추상메서드)
 	List<Notice> selectLatesNoticeList();
 	// 공지사항 리스트를 페이지 별로 조회하는 메서드

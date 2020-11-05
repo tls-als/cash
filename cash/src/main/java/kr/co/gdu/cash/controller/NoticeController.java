@@ -38,35 +38,41 @@ public class NoticeController {
 		return "addNotice";
 	}
 	
-	// 공지입력액션
+	// 공지입력액션(넘겨질 값이 없음 -> model 안씀)
 	@PostMapping("/admin/addNotice")
-	public String addNotice(Notice notice) {	// 커맨드객체
+	public String addNotice(Notice notice) {	// 커맨드객체(스프링에서 vo타입의 변수와 이름을 알아서 맞추어줌)
 		noticeService.setinsertNotice(notice);
 		return "redirect:/admin/noticeList";
 	}
 	
-	// 공지 상세 보기
+	// 공지 상세 보기(넘겨질 값이 있음 -> model 사용.)
 	@GetMapping("/admin/noticeOne")
 	public String noticeOne(Model model,
 			@RequestParam(value = "noticeId") int noticeId) {
 		// noticeService 호출
+		List<Notice> list = noticeService.getSelectDetailNoticeList(noticeId);
+		model.addAttribute("list", list);
 		return "noticeOne";
 	}
-	/*
+	
 	// 공지삭제
 	@GetMapping("/admin/removeNotice")
 	public String removeNotice(@RequestParam(value = "noticeId") int noticeId) {
+		noticeService.setDeleteNoticeList(noticeId);
 		return "redirect:/admin/noticeList";
 	}
-	// 공지수정폼
+	
+	// 공지수정폼(list 가져와야 함)
 	@GetMapping("/admin/modifyNotice")
 	public String modifyNotice(Model model, @RequestParam(value = "noticeId") int noticeId) {
+		List<Notice> noticeList = noticeService.getSelectModifyNoticeList(noticeId);
+		model.addAttribute("noticeList", noticeList);
 		return "modifyNotice";
 	}	
 	// 공지수정액션
 	@PostMapping("/admin/modifyNotice")
-	public String modifyNotice(Notice notice) {
+	public String modifyNotice(Notice notice) {	// 커맨드객체
+		noticeService.setUpdateNoticeList(notice);
 		return "redirect:/admin/noticeOne?noticeId="+notice.getNoticeId();	// 상세보기로 다시 이동
 	}	
-	*/
 }

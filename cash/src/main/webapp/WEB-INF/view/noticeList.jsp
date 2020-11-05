@@ -8,6 +8,7 @@
 <title>noticeList</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<h1>noticeList 페이지</h1>
 	<!-- 공지 추가하기 -->
 	<div><a href="/admin/addNotice">추가하기</a></div>
@@ -29,8 +30,8 @@
 				<td>${c.noticeId}</td>
 				<td>${c.noticeTitle}</td>
 				<td>${c.noticeDate}</td>
-				<th><a href="/admin/modifyNotice">수정</a></th>
-				<th><a href="/admin/removeNotice">삭제</a></th>
+				<th><a href="/admin/modifyNotice?noticeId=${c.noticeId}">수정</a></th>
+				<th><a href="/admin/removeNotice?noticeId=${c.noticeId}">삭제</a></th>
 				<th><a href="/admin/noticeOne?noticeId=${c.noticeId}">상세보기</a></th>
 			</tr>
 			</c:forEach>

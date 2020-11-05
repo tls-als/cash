@@ -22,14 +22,14 @@ public class CashbookController {
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
 	
-	// 버튼클릭 post 형태로 요청드러왔을 때
+	// 버튼클릭 post 형태로 요청드러왔을 때 인서트 액션을 실행후 달력으로 이동
 	@PostMapping("/admin/addCashbook")
-	public String addCashbook(Cashbook cashbook) {	// 커맨드객체(이름과 같은 것을 request.getParamer 값을 만들어줌. cashbook.get)
+	public String addCashbook(Cashbook cashbook) {	// 커맨드객체(이름과 같은 것을 request.getParamer 값을 만들어줌. cashbook.get). 뷰로 다시 보낼게 없으니 map 사용X
 		//System.out.println(cashbook);
 		cashbookService.addCashbook(cashbook);
 		return "redirect:/admin/cashbookByMonth";	// 리다이렉트(결과물이 없을시) => response.sendRedirect();
 	}
-	
+	// 가계부 입력 페이지로 넘어가는 메서드. (카테고리 리스트를 model에 담아서 포워딩)
 	@GetMapping("/admin/addCashbook")
 	public String addCashbook(Model model,
 			@RequestParam(name = "currentYear", required = true) int currentYear,
@@ -37,7 +37,7 @@ public class CashbookController {
 			@RequestParam(name = "currentDay", required = true) int currentDay) {
 		List<Category> categoryList = categoryService.getCategoryList();
 		model.addAttribute("categoryList", categoryList);
-		return "addCashbook";	// 포워딩 => forward
+		return "addCashbook";	// 포워딩(값이 있을시) => forward
 	}
 	
 	@GetMapping("/admin/cashbookByDay")
