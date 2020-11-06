@@ -8,46 +8,50 @@
 <title>cashbookByDay.jsp</title>
 </head>
 <body>
+<div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	<h1>cashbookByDay</h1>
-	<div>
-		<a href="">이전</a>
-		 ${param.currentYear}년 ${param.currentMonth}월 ${param.currentDay}일
-		 <a href="">다음</a>
-	</div>
-	<a href="/admin/addCashbook?currentYear= ${param.currentYear}&currentMonth=${param.currentMonth}&currentDay=${param.currentDay}">수입/지출 입력</a>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>cashbookId</th>
-				<th>cashbookKind</th>
-				<th>categoryName</th>
-				<th>cashbookPrice</th>
-				<th>cashbookContent</th>
-				<th>수정</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:if test="${cashbookList != null}">
-				<c:forEach var="c" items="${cashbookList}">
-					<tr>
-						<td>${c.cashbookId}</td>
-						<td>${c.cashbookKind}</td>
-						<td>${c.categoryName}</td>
-						<td>${c.cashbookPrice}</td>
-						<td>${c.cashbookContent}</td>
-						<td><a href=""></a></td>
-						<td><a href=""></a></td>
-					</tr>
-				</c:forEach>
-			</c:if>
-			<c:if test="${empty cashbookList}">
+	<div style="margin-top: 50px" align="center">
+		<h1>cashbookByDay</h1><br>
+		<div>
+			<a class="btn btn-light" href="/admin/cashbookByDay?target=pre&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">이전</a>
+				 <span class="text-success">${currentYear}년 ${currentMonth}월 ${currentDay}일</span>
+			<a class="btn btn-light" href="/admin//cashbookByDay?target=next&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">다음</a>
+		</div><br>
+		<a class="btn btn-outline-primary" href="/admin/addCashbook?currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">수입/지출 입력</a>
+		<table class="table table-bordered">
+			<thead>
 				<tr>
-					<td colspan="7" align="center" height="50">데이터가 없습니다.</td>
+					<th>cashbookId</th>
+					<th>cashbookKind</th>
+					<th>categoryName</th>
+					<th>cashbookPrice</th>
+					<th>cashbookContent</th>
+					<th>수정</th>
+					<th>삭제</th>
 				</tr>
-			</c:if>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<c:if test="${cashbookList != null}">
+					<c:forEach var="c" items="${cashbookList}">
+						<tr>
+							<td>${c.cashbookId}</td>
+							<td>${c.cashbookKind}</td>
+							<td>${c.categoryName}</td>
+							<td>${c.cashbookPrice}</td>
+							<td>${c.cashbookContent}</td>
+							<td><a class="btn btn-outline-primary" href="/admin/modifyCashbook?cashbookId=${c.cashbookId}&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">수정</a></td>
+							<td><a class="btn btn-outline-danger" href="/admin/deleteCashbook?cashbookId=${c.cashbookId}&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">삭제</a></td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty cashbookList}">
+					<tr>
+						<td colspan="7" align="center" height="50">데이터가 없습니다.</td>
+					</tr>
+				</c:if>
+			</tbody>
+		</table>
+	</div>
+</div>
 </body>
 </html>

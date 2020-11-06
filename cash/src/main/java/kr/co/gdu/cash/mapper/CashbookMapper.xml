@@ -3,7 +3,38 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="kr.co.gdu.cash.mapper.CashbookMapper">	
- 
+ 	<!-- 가계부 삭제 쿼리 -->
+ 	<delete id="deleteCashbook" parameterType="int">
+ 		DELETE
+ 		FROM cashbook
+ 		WHERE cashbook_id = #{cashbookID}
+ 	</delete>
+ 	<!-- 가계부 수정 쿼리 -->
+ 	<update id="updateCashbook" parameterType="kr.co.gdu.cash.vo.Cashbook">
+ 		UPDATE cashbook
+ 		SET cashbook_kind = #{cashbookKind},
+ 			category_name = #{categoryName},
+ 			cashbook_price = #{cashbookPrice},
+ 			cashbook_content = #{cashbookContent},
+ 			cashbook_date = #{cashbookDate},
+ 			update_date = NOW()
+ 		WHERE cashbook_id = #{cashbookId}
+ 	</update>
+ 	<!-- 수정폼에서 출력하는 가계 상세내용 조회 쿼리 -->
+ 	<select id="selectDetailCashbookList" parameterType="int" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT
+ 			cashbook_id cashbookId,
+ 			cashbook_kind cashbookKind,
+ 			category_name categoryName,
+ 			cashbook_price cashbookPrice,
+ 			cashbook_content cashbookContent,
+ 			cashbook_date cashbookDate,
+ 			create_date createDate,
+ 			update_date updateDate
+ 		FROM cashbook
+ 		where cashbook_id = #{cashbookId}
+ 	</select>
+ 	<!-- 가계 내용을 입력하기 위한 쿼리 -->
  	<insert id="insertCashbook" parameterType="kr.co.gdu.cash.vo.Cashbook">
  		INSERT INTO cashbook(
  			cashbook_kind,

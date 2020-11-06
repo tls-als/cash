@@ -7,24 +7,28 @@
 <title>addNotice</title>
 </head>
 <body>
+<div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	<h1>공지사항 입력</h1>
-	<form action="/admin/addNotice" method="post">
-		<table>
-			<tr>
-				<td>noticeTitle</td>
-				<td>
-					<input type="text" name="noticeTitle">
-				</td>
-			</tr>
-			<tr>
-				<td>noticeContent</td>
-				<td>
-					<input type="text" name="noticeContent">
-				</td>
-			</tr>
-		</table>
-		<button type="submit">등록하기</button>
-	</form>
+	<div style="margin-top: 50px" align="center">
+		<h1>공지사항 입력</h1>
+		<form action="/admin/addNotice" method="post">
+			<table class="table table-bordered">
+				<tr>
+					<td>공지 제목</td>
+					<td>
+						<input class="form-control" type="text" name="noticeTitle">
+					</td>
+				</tr>
+				<tr>
+					<td>공지 내용</td>
+					<td>
+						<input class="form-control" type="text" name="noticeContent">
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-primary" type="submit">등록하기</button>
+		</form>
+	</div>
+</div>
 </body>
 </html>

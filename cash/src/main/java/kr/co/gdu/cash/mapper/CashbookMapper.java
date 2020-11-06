@@ -11,8 +11,11 @@ import kr.co.gdu.cash.vo.Cashbook;
 @Mapper	// 인터페이스의 구현체의 클래스 객체를 생성
 public interface CashbookMapper {
 	int insertCashbook(Cashbook cashbook); // select를 제외한 모든 값은 마이바티스에서 int를 리턴
-	List<Map<String, Object>> selectCashInOutList();
-	int selectSumCashbookPriceByInOut(Map<String, Object> map);
-	List<Map<String, Object>> selectCashListByMonth(Map<String, Object> map);
-	List<Cashbook> selectCashbookListByDay(Map<String, Object> map);	// 연,달,일
+	List<Map<String, Object>> selectCashInOutList();	// 수입,지출을 조회하는 메서드
+	int selectSumCashbookPriceByInOut(Map<String, Object> map);	// 수입,지출 총합계를 조회하는 메서드
+	List<Map<String, Object>> selectCashListByMonth(Map<String, Object> map);	// 달별 가계를 조회하는 메서드
+	List<Cashbook> selectCashbookListByDay(Map<String, Object> map);	// 일별 가계를 조회하는 매서드(매개변수: 연달일)
+	List<Cashbook> selectDetailCashbookList(int cashbookId); // 수정폼에서 출력하기 위한 가계부 상세 내용 조회
+	int updateCashbook(Cashbook cashbook);	// 가계부 수정을 위한 메서드
+	int deleteCashbook(int cashbookId);
 }

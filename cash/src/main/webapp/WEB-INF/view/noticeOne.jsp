@@ -8,28 +8,32 @@
 <title>noticeOne</title>
 </head>
 <body>
+<div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	<h1>공지 상세보기 페이지</h1>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>noticeId</th>
-				<th>noticeTitle</th>
-				<th>noticeContent</th>
-				<th>noticeDate</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="c" items="${list}">
+	<div style="margin-top: 50px" align="center">
+		<h1>공지 상세보기 페이지</h1><br>
+		<table class="table table-bordered table-striped">
+			<thead>
 				<tr>
-					<td>${c.noticeId}</td>
-					<td>${c.noticeTitle}</td>
-					<td>${c.noticeContent}</td>
-					<td>${c.noticeDate}</td>
+					<th>noticeId</th>
+					<th>noticeTitle</th>
+					<th>noticeContent</th>
+					<th>noticeDate</th>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<a href="/admin/noticeList">뒤로가기</a>
+			</thead>
+			<tbody>
+				<c:forEach var="c" items="${list}">
+					<tr>
+						<td>${c.noticeId}</td>
+						<td>${c.noticeTitle}</td>
+						<td>${c.noticeContent}</td>
+						<td>${c.noticeDate}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<a class="btn btn-primary" href="/admin/noticeList">뒤로가기</a>
+	</div>
+</div>
 </body>
 </html>

@@ -15,11 +15,24 @@ import kr.co.gdu.cash.vo.Cashbook;
 @Transactional
 public class CashbookService {
 	@Autowired private CashbookMapper cashbookMapper;	// 주입(외부 의존성주입)
-	
+	// 가계부 삭제
+	public int deleteCashbook(int cashbookId) {
+		return cashbookMapper.deleteCashbook(cashbookId);
+	}
+	// 가계부 수정
+	public int updateCashbookList(Cashbook cashbook) {
+		return cashbookMapper.updateCashbook(cashbook);
+	}
+	// 수정폼에서 출력하는 가계부 상세조회 서비스
+	public List<Cashbook> getselectDetailCashbookList(int cashbookId) {
+		List<Cashbook> cashbookList = cashbookMapper.selectDetailCashbookList(cashbookId);
+		return cashbookList;
+	}
+	// 가계부 내용을 추가하는 서비스
 	public int addCashbook(Cashbook cashbook) {
 		return cashbookMapper.insertCashbook(cashbook);
 	}
-	
+	// 일자별 가계부 리스트를 출력하는 서비스
 	public List<Cashbook> getCashbookListByDay(int currentYear, int currentMonth, int currentDay) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentYear", currentYear);
@@ -27,7 +40,7 @@ public class CashbookService {
 		map.put("currentDay", currentDay);
 		return cashbookMapper.selectCashbookListByDay(map);
 	}
-	
+	// 수입과 지출의 합계를 조회하는 서비스
 	public int getSumCashbookPriceByInOut(String cashbookKind, int currentYear, int currentMonth) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cashbookKind", cashbookKind);

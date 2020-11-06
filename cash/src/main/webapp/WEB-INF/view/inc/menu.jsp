@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<a class="navbar-brand">CashBook</a>
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
 	    <a class="nav-link" href="/">index</a>
@@ -11,4 +12,4 @@
 	    <a class="nav-link" href="/admin/logout">logout</a>
 	  </li>
 	</ul>
-</div>
+</nav>

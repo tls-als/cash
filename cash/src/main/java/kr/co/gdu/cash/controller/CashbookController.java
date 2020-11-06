@@ -21,7 +21,45 @@ public class CashbookController {
 	
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
-	
+	// 일별 가계부 내용 삭제
+	@GetMapping("/admin/deleteCashbook")
+	public String deleteCashbook(int cashbookId, Model model,
+			@RequestParam(name = "currentYear", required = true) int currentYear,
+			@RequestParam(name = "currentMonth", required = true) int currentMonth,
+			@RequestParam(name = "currentDay", required = true) int currentDay) {
+		cashbookService.deleteCashbook(cashbookId);	// 삭제 메서드 실행
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);
+		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
+		model.addAttribute("currentYear", currentYear);		// cashbookByDay 페이지 이동을 위한 날짜 담기
+		model.addAttribute("currentMonth", currentMonth);
+		model.addAttribute("currentDay", currentDay);
+		return "cashbookByDay";	// cashbookByDay으로 포워딩
+	}
+	// 일별 가계부 내용을 수정
+	@GetMapping("/admin/modifyCashbook")
+	public String modifyCashbook(Model model,
+			@RequestParam(name = "cashbookId", required = true) int cashbookId,
+			@RequestParam(name = "currentYear", required = true) int currentYear,
+			@RequestParam(name = "currentMonth", required = true) int currentMonth,
+			@RequestParam(name = "currentDay", required = true) int currentDay) {
+		List<Cashbook> cashbookList = cashbookService.getselectDetailCashbookList(cashbookId);
+		model.addAttribute("cashbookList", cashbookList);	// 가계부 리스트
+		return "modifyCashbook";
+	}
+	// modifyCashbook폼에서 수정하기 버튼클릭시 일자별가계부로 돌아가기(날짜, 해당날짜 리스트 넘김)
+	@PostMapping("/admin/modifyCashbook")
+	public String setmodifyCashbook(Cashbook cashbook, Model model,	// 업데이트 실행을 위한 vo 커맨드객체, 일자가계부 페이지 이동위한 model
+			@RequestParam(name = "currentYear", required = true) int currentYear,	// 일자가계부 페이지 이동할 때 넘길 날짜&수정폼에 출력을 위한 날짜값
+			@RequestParam(name = "currentMonth", required = true) int currentMonth,
+			@RequestParam(name = "currentDay", required = true) int currentDay) {
+		cashbookService.updateCashbookList(cashbook);	// 업데이트 실행
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);	// 파라메터로 넘어온 값으로 일자별 가계부리스트 조회
+		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
+		model.addAttribute("currentYear", currentYear);		// cashbookByDay 페이지 이동을 위한 날짜 담기
+		model.addAttribute("currentMonth", currentMonth);
+		model.addAttribute("currentDay", currentDay);
+		return "cashbookByDay";	// 포워딩
+	}
 	// 버튼클릭 post 형태로 요청드러왔을 때 인서트 액션을 실행후 달력으로 이동
 	@PostMapping("/admin/addCashbook")
 	public String addCashbook(Cashbook cashbook) {	// 커맨드객체(이름과 같은 것을 request.getParamer 값을 만들어줌. cashbook.get). 뷰로 다시 보낼게 없으니 map 사용X
@@ -39,14 +77,31 @@ public class CashbookController {
 		model.addAttribute("categoryList", categoryList);
 		return "addCashbook";	// 포워딩(값이 있을시) => forward
 	}
-	
+	// 일자별 가계부 내용을 출력하는 페이지로 포워딩
 	@GetMapping("/admin/cashbookByDay")
 	public String cashbookByDay(Model model,
-								@RequestParam(name = "currentYear", required = true) int currentYear,
+								@RequestParam(name = "target", defaultValue = "") String target,	// cashbookByMonth에서 request로 보낸 파라매터 매개변수. ByMonth에선 target 값이 없기에 기본값 공백
+								@RequestParam(name = "currentYear", required = true) int currentYear,	// required 값은 트루
 								@RequestParam(name = "currentMonth", required = true) int currentMonth,
 								@RequestParam(name = "currentDay", required = true) int currentDay) {
-		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);
+		// 매개변수로 넘겨진 값으로 날짜를 만들어줌
+		Calendar targetDay = Calendar.getInstance();	// 현재 날짜가져오기
+		targetDay.set(Calendar.YEAR, currentYear);
+		targetDay.set(Calendar.MONTH, currentMonth-1);	// 컴퓨터는 0부터 1월을 카운트하기에 넘어온 매개변수의 달은 -1빼야 컴퓨터가 맞게 계산
+		targetDay.set(Calendar.DATE, currentDay);
+		// cashbookByDay로부터 target 파라멘터값이 pre이면
+		if(target.equals("pre")) {
+			targetDay.add(Calendar.DATE, -1);	// 캘린더 API가 알아서 빼줌.
+		// cashbookByDay로부터 target 파라멘터값이 next이면	
+		}else if(target.equals("next")) {
+			targetDay.add(Calendar.DATE, 1);	// 캘린더 API가 알아서 더해줌.
+		}
+		// cashbookByMonth로 요청했을시 target 값은 없기에 아래 실행
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(targetDay.get(Calendar.YEAR), targetDay.get(Calendar.MONDAY)+1, targetDay.get(Calendar.DATE));
 		model.addAttribute("cashbookList", cashbookList);
+		model.addAttribute("currentYear", targetDay.get(Calendar.YEAR)); 
+		model.addAttribute("currentMonth", targetDay.get(Calendar.MONDAY)+1);
+		model.addAttribute("currentDay", targetDay.get(Calendar.DATE)); // cashbookByMonth에서 request로 보낸 파라매터값이 컨트롤러로 인해 변경되었기에 ${param.~}으로 보내면 month에만 보낸 값만 고정되기에 변경된 값을 모델에 담아 cashbookByDay 보냄
 		return "cashbookByDay";
 	}
 	
@@ -56,6 +111,7 @@ public class CashbookController {
 			@RequestParam(name = "currentMonth", defaultValue = "-1") int currentMonth) {	// 0~13월까지 넘어올 수 있음. request.getParameter
 		// 1. 요청분석
 		Calendar currentDay = Calendar.getInstance();	// 오늘 날짜(현재 시스템 날짜)
+		// Calendar API 사용시: currentDay.add(Calendar.Month, -1) => 이슈
 		// request로 넘어온 값이 있을 시(이전달,다음달)
 		if(currentYear != -1 && currentMonth != -1) {
 			// currentYear도 값이 넘어오고, currentMonth도 값이 넘어오면

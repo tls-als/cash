@@ -4,41 +4,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<title>login</title>
 </head>
 <body>	
-	<h1>공지사항</h1>
-	<div>
-		<table border="1">
-			<thead>
+<div class="container">
+	<div style="margin-top: 50px" align="center">
+		<h1>로그인</h1>
+		<form action="/login" method="post">
+			<table>
 				<tr>
-					<th>notice_id</th>
-					<th>notice_title</th>
-					<th>notice_date</th>
+					<td>ID</td>
+					<td>
+						<input class="form-control col-sm-10" type="text" name="id">
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="n" items="${noticeList}">
+				<tr>
+					<td>PW</td>
+					<td>
+						<input class="form-control col-sm-10" type="password" name="pw">
+					</td>
+				</tr>
+			</table><br>
+			<div>
+				<button class="btn btn-success" type="submit">로그인</button>
+			</div>
+		</form><br>
+		<h1>공지사항</h1>
+		<div>
+			<table class="table table-bordered table-striped">
+				<thead>
 					<tr>
-						<td>${n.noticeId}</td>
-						<td>${n.noticeTitle}</td>
-						<td>${n.noticeDate}</td>	<!-- n.getNoticeContent(). setter&getter는 점으로 호출 -->
+						<th>notice_id</th>
+						<th>notice_title</th>
+						<th>notice_date</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach var="n" items="${noticeList}">
+						<tr>
+							<td>${n.noticeId}</td>
+							<td>${n.noticeTitle}</td>
+							<td>${n.noticeDate}</td>	<!-- n.getNoticeContent(). setter&getter는 점으로 호출 -->
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<h1>로그인</h1>
-	<form action="/login" method="post">
-		<div>
-			ID : <input type="text" name="id">
-		</div>
-		<div>
-			PW : <input type="password" name="pw">
-		</div>
-		<div>
-			<button type="submit">로그인</button>
-		</div>
-	</form>
+</div>
 </body>
 </html>

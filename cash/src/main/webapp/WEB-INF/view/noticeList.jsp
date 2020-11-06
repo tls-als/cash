@@ -8,49 +8,53 @@
 <title>noticeList</title>
 </head>
 <body>
+<div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	<h1>noticeList 페이지</h1>
-	<!-- 공지 추가하기 -->
-	<div><a href="/admin/addNotice">추가하기</a></div>
-	<!-- 공지리스트 -->
-	<table border="1">
-		<thead>
-			<tr>
-				<th>noticeId</th>
-				<th>noticeTitle</th>
-				<th>noticeDate</th>
-				<th>수정</th>
-				<th>삭제</th>
-				<th>상세보기</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="c" items="${noticeList}">
-			<tr>
-				<td>${c.noticeId}</td>
-				<td>${c.noticeTitle}</td>
-				<td>${c.noticeDate}</td>
-				<th><a href="/admin/modifyNotice?noticeId=${c.noticeId}">수정</a></th>
-				<th><a href="/admin/removeNotice?noticeId=${c.noticeId}">삭제</a></th>
-				<th><a href="/admin/noticeOne?noticeId=${c.noticeId}">상세보기</a></th>
-			</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<!-- 페이징 -->
-	<div>
-		<c:choose>
-			<c:when test="${currentPage == 1}">
-				<a href="/admin/noticeList?currentPage=${currentPage+1}">다음</a>
-			</c:when>
-			<c:when test="${currentPage > 1 && currentPage != lastPage}">
-				<a href="/admin/noticeList?currentPage=${currentPage-1}">이전</a>
-				<a href="/admin/noticeList?currentPage=${currentPage+1}">다음</a>
-			</c:when>
-			<c:when test="${currentPage == lastPage}">
-				<a href="/admin/noticeList?currentPage=${currentPage-1}">이전</a>
-			</c:when>	
-		</c:choose>
+	<div style="margin-top: 50px" align="center">
+		<h1>공지사항 LIST</h1><br>
+		<!-- 공지 추가하기 -->
+		<div><a class="btn btn-outline-info" href="/admin/addNotice">공지 추가하기</a></div>
+		<!-- 공지리스트 -->
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>noticeId</th>
+					<th>noticeTitle</th>
+					<th>noticeDate</th>
+					<th>수정</th>
+					<th>삭제</th>
+					<th>상세보기</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="c" items="${noticeList}">
+				<tr>
+					<td>${c.noticeId}</td>
+					<td>${c.noticeTitle}</td>
+					<td>${c.noticeDate}</td>
+					<th><a class="btn btn-outline-primary" href="/admin/modifyNotice?noticeId=${c.noticeId}">수정</a></th>
+					<th><a class="btn btn-outline-danger" href="/admin/removeNotice?noticeId=${c.noticeId}">삭제</a></th>
+					<th><a class="btn btn-outline-dark" href="/admin/noticeOne?noticeId=${c.noticeId}">상세보기</a></th>
+				</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<!-- 페이징 -->
+		<ul class="pagination justify-content-center">
+			<c:choose>
+				<c:when test="${currentPage == 1}">
+					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage+1}">다음</a></li>
+				</c:when>
+				<c:when test="${currentPage > 1 && currentPage != lastPage}">
+					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage-1}">이전</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage+1}">다음</a></li>
+				</c:when>
+				<c:when test="${currentPage == lastPage}">
+					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage-1}">이전</a></li>
+				</c:when>	
+			</c:choose>
+		</ul>
 	</div>
+</div>
 </body>
 </html>
