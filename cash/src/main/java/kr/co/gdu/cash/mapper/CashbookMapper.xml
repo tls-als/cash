@@ -86,6 +86,7 @@
 				-(case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "합계"
 		FROM cashbook
 		GROUP BY DATE_FORMAT(cashbook_date, '%Y.%m')
+		ORDER BY DATE_FORMAT(cashbook_date, '%Y.%m') DESC
 		LIMIT 3
  	</select>
  	

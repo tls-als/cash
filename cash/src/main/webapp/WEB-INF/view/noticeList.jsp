@@ -43,14 +43,35 @@
 		<ul class="pagination justify-content-center">
 			<c:choose>
 				<c:when test="${currentPage == 1}">
-					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage+1}">다음</a></li>
+					<li class="page-item disabled"><a class="page-link">이전</a></li>
+					<c:forEach var="i" begin="1" end="5">
+						<li class="page-item">
+							<a class="page-link" href="/admin/noticeList/${i}">${i}</a>
+						</li>
+					</c:forEach>
+					<li class="page-item"><a class="page-link" href="/admin/noticeList/${currentPage+1}">다음</a></li>
 				</c:when>
 				<c:when test="${currentPage > 1 && currentPage != lastPage}">
-					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage-1}">이전</a></li>
-					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage+1}">다음</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/noticeList/${currentPage-1}">이전</a></li>
+					<c:forEach var="i" begin="1" end="5">
+						<li class="page-item">
+							<a class="page-link" href="/admin/noticeList/${i}">
+									${i}
+							</a>
+						</li>
+					</c:forEach>
+					<li class="page-item"><a class="page-link" href="/admin/noticeList/${currentPage+1}">다음</a></li>
 				</c:when>
 				<c:when test="${currentPage == lastPage}">
-					<li class="page-item"><a class="page-link" href="/admin/noticeList?currentPage=${currentPage-1}">이전</a></li>
+					<li class="page-item"><a class="page-link" href="/admin/noticeList/${currentPage-1}">이전</a></li>
+					<c:forEach var="i" begin="1" end="5">
+						<li class="page-item">
+							<a class="page-link" href="/admin/noticeList/${i}">
+									${i}
+							</a>
+						</li>
+					</c:forEach>
+					<li class="page-item disabled"><a class="page-link">다음</a></li>
 				</c:when>	
 			</c:choose>
 		</ul>

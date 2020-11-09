@@ -17,15 +17,15 @@ import kr.co.gdu.cash.vo.Notice;
 public class NoticeController {
 	@Autowired private NoticeService noticeService;	// noticeService 객체 주입
 	// 공지목록.  뷰에 데이터를 보내기 위해 model 사용
-	@GetMapping("/admin/noticeList")
+	@GetMapping("/admin/noticeList/{currentPage}")
 	public String noticeList(Model model,
-			@RequestParam(value="currentPage",defaultValue = "1") int currentPage,	// request.getParameter
-			@RequestParam(value="rowPerPage",defaultValue = "5") int rowPerPage) {
+			@PathVariable(value="currentPage") int currentPage) {	// request.getParameter
+		int rowPerPage = 10;	// 한 페이지에서 보여질 행의 갯수
 		// noticeService 호출
 		List<Notice> noticeList = noticeService.getNoticeListByPage(currentPage, rowPerPage);	// RequestParam으로 넘어온 매개변수를 같이 담아서 서비스 호출
 		int noticeCnt = noticeService.getNoticeListCount();	// 공지리스트의 전체 행의 수
 		int lastPage = noticeCnt/rowPerPage;
-		if(noticeCnt%rowPerPage != 0) {
+		if(noticeCnt%rowPerPage != 0) {	// 마지막 페이지 구하기
 			lastPage += 1;
 		}
 		model.addAttribute("currentPage", currentPage);	// 페이징을 하기위해 뷰에 현재페이지 데이터도 보냄

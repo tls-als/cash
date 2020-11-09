@@ -14,7 +14,7 @@
 	<div style="margin-top: 50px" align="center">
 		<h1>Home</h1><br>
 		<h5><span class="text-success">공지사항</span></h5>
-		<div><a href="/admin/noticeList" class="btn btn-outline-info btn-sm">more</a></div>
+		<div><a href="/admin/noticeList/1" class="btn btn-outline-info btn-sm">more</a></div>
 		<div>
 			<table class="table table-bordered table-striped">
 				<thead>
