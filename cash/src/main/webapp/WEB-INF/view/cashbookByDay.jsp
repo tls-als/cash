@@ -13,11 +13,11 @@
 	<div style="margin-top: 50px" align="center">
 		<h1>cashbookByDay</h1><br>
 		<div>
-			<a class="btn btn-light" href="/admin/cashbookByDay?target=pre&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">이전</a>
+			<a class="btn btn-light" href="/admin/cashbookByDay/pre/${currentYear}/${currentMonth}/${currentDay}">이전</a>
 				 <span class="text-success">${currentYear}년 ${currentMonth}월 ${currentDay}일</span>
-			<a class="btn btn-light" href="/admin//cashbookByDay?target=next&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">다음</a>
+			<a class="btn btn-light" href="/admin/cashbookByDay/next/${currentYear}/${currentMonth}/${currentDay}">다음</a>
 		</div><br>
-		<a class="btn btn-outline-primary" href="/admin/addCashbook?currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">수입/지출 입력</a>
+		<a class="btn btn-outline-primary" href="/admin/addCashbook/${currentYear}/${currentMonth}/${currentDay}">수입/지출 입력</a>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -39,8 +39,8 @@
 							<td>${c.categoryName}</td>
 							<td>${c.cashbookPrice}</td>
 							<td>${c.cashbookContent}</td>
-							<td><a class="btn btn-outline-primary" href="/admin/modifyCashbook?cashbookId=${c.cashbookId}&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">수정</a></td>
-							<td><a class="btn btn-outline-danger" href="/admin/deleteCashbook?cashbookId=${c.cashbookId}&currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${currentDay}">삭제</a></td>
+							<td><a class="btn btn-outline-primary" href="/admin/modifyCashbook/${c.cashbookId}/${currentYear}/${currentMonth}/${currentDay}">수정</a></td>
+							<td><a class="btn btn-outline-danger" href="/admin/deleteCashbook/${c.cashbookId}/${currentYear}/${currentMonth}/${currentDay}">삭제</a></td>
 						</tr>
 					</c:forEach>
 				</c:if>

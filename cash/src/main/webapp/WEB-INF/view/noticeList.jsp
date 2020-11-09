@@ -32,9 +32,9 @@
 					<td>${c.noticeId}</td>
 					<td>${c.noticeTitle}</td>
 					<td>${c.noticeDate}</td>
-					<th><a class="btn btn-outline-primary" href="/admin/modifyNotice?noticeId=${c.noticeId}">수정</a></th>
-					<th><a class="btn btn-outline-danger" href="/admin/removeNotice?noticeId=${c.noticeId}">삭제</a></th>
-					<th><a class="btn btn-outline-dark" href="/admin/noticeOne?noticeId=${c.noticeId}">상세보기</a></th>
+					<th><a class="btn btn-outline-primary" href="/admin/modifyNotice/${c.noticeId}">수정</a></th>
+					<th><a class="btn btn-outline-danger" href="/admin/removeNotice/${c.noticeId}">삭제</a></th>
+					<th><a class="btn btn-outline-dark" href="/admin/noticeOne/${c.noticeId}">상세보기</a></th>
 				</tr>
 				</c:forEach>
 			</tbody>

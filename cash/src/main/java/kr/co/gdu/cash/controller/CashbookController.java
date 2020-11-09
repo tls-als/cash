@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,11 +23,12 @@ public class CashbookController {
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
 	// 일별 가계부 내용 삭제
-	@GetMapping("/admin/deleteCashbook")
-	public String deleteCashbook(int cashbookId, Model model,
-			@RequestParam(name = "currentYear", required = true) int currentYear,
-			@RequestParam(name = "currentMonth", required = true) int currentMonth,
-			@RequestParam(name = "currentDay", required = true) int currentDay) {
+	@GetMapping("/admin/deleteCashbook/{cashbookId}/{currentYear}/{currentMonth}/{currentDay}")
+	public String deleteCashbook(Model model,
+			@PathVariable(name = "cashbookId", required = true) int cashbookId,
+			@PathVariable(name = "currentYear", required = true) int currentYear,
+			@PathVariable(name = "currentMonth", required = true) int currentMonth,
+			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		cashbookService.deleteCashbook(cashbookId);	// 삭제 메서드 실행
 		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);
 		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
@@ -36,22 +38,25 @@ public class CashbookController {
 		return "cashbookByDay";	// cashbookByDay으로 포워딩
 	}
 	// 일별 가계부 내용을 수정
-	@GetMapping("/admin/modifyCashbook")
+	@GetMapping("/admin/modifyCashbook/{cashbookId}/{currentYear}/{currentMonth}/{currentDay}")
 	public String modifyCashbook(Model model,
-			@RequestParam(name = "cashbookId", required = true) int cashbookId,
-			@RequestParam(name = "currentYear", required = true) int currentYear,
-			@RequestParam(name = "currentMonth", required = true) int currentMonth,
-			@RequestParam(name = "currentDay", required = true) int currentDay) {
+			@PathVariable(name = "cashbookId", required = true) int cashbookId,
+			@PathVariable(name = "currentYear", required = true) int currentYear,
+			@PathVariable(name = "currentMonth", required = true) int currentMonth,
+			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		List<Cashbook> cashbookList = cashbookService.getselectDetailCashbookList(cashbookId);
+		model.addAttribute("currentYear", currentYear);
+		model.addAttribute("currentMonth", currentMonth);
+		model.addAttribute("currentDay", currentDay);
 		model.addAttribute("cashbookList", cashbookList);	// 가계부 리스트
 		return "modifyCashbook";
 	}
 	// modifyCashbook폼에서 수정하기 버튼클릭시 일자별가계부로 돌아가기(날짜, 해당날짜 리스트 넘김)
-	@PostMapping("/admin/modifyCashbook")
+	@PostMapping("/admin/modifyCashbook/{currentYear}/{currentMonth}/{currentDay}")
 	public String setmodifyCashbook(Cashbook cashbook, Model model,	// 업데이트 실행을 위한 vo 커맨드객체, 일자가계부 페이지 이동위한 model
-			@RequestParam(name = "currentYear", required = true) int currentYear,	// 일자가계부 페이지 이동할 때 넘길 날짜&수정폼에 출력을 위한 날짜값
-			@RequestParam(name = "currentMonth", required = true) int currentMonth,
-			@RequestParam(name = "currentDay", required = true) int currentDay) {
+			@PathVariable(name = "currentYear", required = true) int currentYear,	// 일자가계부 페이지 이동할 때 넘길 날짜&수정폼에 출력을 위한 날짜값
+			@PathVariable(name = "currentMonth", required = true) int currentMonth,
+			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		cashbookService.updateCashbookList(cashbook);	// 업데이트 실행
 		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);	// 파라메터로 넘어온 값으로 일자별 가계부리스트 조회
 		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
@@ -68,22 +73,25 @@ public class CashbookController {
 		return "redirect:/admin/cashbookByMonth";	// 리다이렉트(결과물이 없을시) => response.sendRedirect();
 	}
 	// 가계부 입력 페이지로 넘어가는 메서드. (카테고리 리스트를 model에 담아서 포워딩)
-	@GetMapping("/admin/addCashbook")
+	@GetMapping("/admin/addCashbook/{currentYear}/{currentMonth}/{currentDay}")
 	public String addCashbook(Model model,
-			@RequestParam(name = "currentYear", required = true) int currentYear,
-			@RequestParam(name = "currentMonth", required = true) int currentMonth,
-			@RequestParam(name = "currentDay", required = true) int currentDay) {
+			@PathVariable(name = "currentYear", required = true) int currentYear,
+			@PathVariable(name = "currentMonth", required = true) int currentMonth,
+			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		List<Category> categoryList = categoryService.getCategoryList();
+		model.addAttribute("currentYear", currentYear);
+		model.addAttribute("currentMonth", currentMonth);
+		model.addAttribute("currentDay", currentDay);
 		model.addAttribute("categoryList", categoryList);
 		return "addCashbook";	// 포워딩(값이 있을시) => forward
 	}
 	// 일자별 가계부 내용을 출력하는 페이지로 포워딩
-	@GetMapping("/admin/cashbookByDay")
+	@GetMapping("/admin/cashbookByDay/{target}/{currentYear}/{currentMonth}/{currentDay}")
 	public String cashbookByDay(Model model,
-								@RequestParam(name = "target", defaultValue = "") String target,	// cashbookByMonth에서 request로 보낸 파라매터 매개변수. ByMonth에선 target 값이 없기에 기본값 공백
-								@RequestParam(name = "currentYear", required = true) int currentYear,	// required 값은 트루
-								@RequestParam(name = "currentMonth", required = true) int currentMonth,
-								@RequestParam(name = "currentDay", required = true) int currentDay) {
+								@PathVariable(name = "target") String target,	// cashbookByMonth에서 request로 보낸 파라매터 매개변수. ByMonth에선 target 값이 없기에 기본값 공백
+								@PathVariable(name = "currentYear", required = true) int currentYear,	// required 값은 트루
+								@PathVariable(name = "currentMonth", required = true) int currentMonth,
+								@PathVariable(name = "currentDay", required = true) int currentDay) {
 		// 매개변수로 넘겨진 값으로 날짜를 만들어줌
 		Calendar targetDay = Calendar.getInstance();	// 현재 날짜가져오기
 		targetDay.set(Calendar.YEAR, currentYear);
@@ -105,13 +113,25 @@ public class CashbookController {
 		return "cashbookByDay";
 	}
 	
-	@GetMapping(value="/admin/cashbookByMonth")	// {"/","/index"}와 동일
+	@GetMapping(value="/admin/cashbookByMonth/{target}/{currentYear}/{currentMonth}")	// {"/","/index"}와 동일
 	public String cashbookByMonth(Model model, //index를 요청하면 리턴값은 String으로 리턴. Model은 Map타입
-			@RequestParam(name = "currentYear", defaultValue = "-1") int currentYear,	// request.getParameter
-			@RequestParam(name = "currentMonth", defaultValue = "-1") int currentMonth) {	// 0~13월까지 넘어올 수 있음. request.getParameter
+			@PathVariable(name = "target") String target,
+			@PathVariable(name = "currentYear") int currentYear,	// request.getParameter
+			@PathVariable(name = "currentMonth") int currentMonth) {	// 0~13월까지 넘어올 수 있음. request.getParameter
 		// 1. 요청분석
-		Calendar currentDay = Calendar.getInstance();	// 오늘 날짜(현재 시스템 날짜)
-		// Calendar API 사용시: currentDay.add(Calendar.Month, -1) => 이슈
+		Calendar currentDay = Calendar.getInstance();	// 오늘 날짜(현재 시스템 날짜) 가져와서 캘린더에 셋팅
+		// Calendar API 사용시: currentDay.add(Calendar.Month, -1)
+		if(currentYear != -1 && currentMonth != -1) {
+			currentDay.set(Calendar.YEAR, currentYear);	// 매개변수로 들어온 값을 캘린더에 셋팅
+			currentDay.set(Calendar.MONTH, currentMonth-1);
+			if(currentYear == 0) {
+				currentDay.add(Calendar.MONTH, 0);
+			}
+			if(currentYear == 13) {
+				currentDay.add(Calendar.MONTH, 0);
+			}
+		}
+		/*
 		// request로 넘어온 값이 있을 시(이전달,다음달)
 		if(currentYear != -1 && currentMonth != -1) {
 			// currentYear도 값이 넘어오고, currentMonth도 값이 넘어오면
@@ -126,6 +146,7 @@ public class CashbookController {
 			currentDay.set(Calendar.YEAR, currentYear);	// 캘린더의 현재 날짜의 연도를 request로 넘어온 currentYear로 변경
 			currentDay.set(Calendar.MONTH, currentMonth-1); // 캘린더의 현재 날짜의 달을 request로 넘어온 currentMonth 값으로 저장 캘린더의 월은 0~11까지임. 캘린더에 1월을 저장할 때 0으로		
 		}
+		*/
 		// 현재 날의 1일을 기준.
 		currentDay.set(Calendar.DATE, 1); // 오늘 날의 1일을 구함. 2020년 11월 1일
 		

@@ -43,11 +43,12 @@
 			1. 이전달 클릭시 request에 현재 연도와 (이번달-1)
 			2. currentYear: 현재 연도, currentMonth: 현재 달
 		 -->
-			<a class="btn btn-info" href="/admin/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth-1}">이전달</a> 
+			<a class="btn btn-info btn-sm" href="/admin/cashbookByMonth/pre/${currentYear}/${currentMonth-1}">이전달</a> 
 			<span class="text-primary">${currentYear}년 ${currentMonth}월</span>
-			<a class="btn btn-info" href="/admin/cashbookByMonth?currentYear=${currentYear}&currentMonth=${currentMonth+1}">다음달</a>
+			<a class="btn btn-info btn-sm" href="/admin/cashbookByMonth/next/${currentYear}/${currentMonth+1}">다음달</a>
 		</h3>
 		<div>
+			<div><a href="/admin/cashbookByMonth/now/-1/-1" class="btn btn-outline-dark btn-sm">오늘날</a></div>
 			<table class="table table-bordered table-dark">
 				<thead>
 					<tr height="50">
@@ -71,17 +72,19 @@
 							</c:if>
 						 	<c:if test="${i-(firstDayOfWeek-1) > 0}">
 						 		<td width="100">
-							 		<div><!-- 날짜 -->
-							 			<a href="/admin/cashbookByDay?currentYear=${currentYear}&currentMonth=${currentMonth}&currentDay=${i-(firstDayOfWeek-1)}">${i-(firstDayOfWeek-1)}</a>
+							 		<div><!-- 날짜(일) -->
+							 			<a href="/admin/cashbookByDay/now/${currentYear}/${currentMonth}/${i-(firstDayOfWeek-1)}">
+							 				${i-(firstDayOfWeek-1)}
+							 			</a>
 							 		</div>
 							 		<!-- 지출,수입 목록이 있는 날짜를 cashList에서 검색 -->
 							 		<c:forEach var="c" items="${cashList}">
 							 			<c:if test="${i-(firstDayOfWeek-1) == c.dday}">
 							 				<c:if test="${c.cashbookKind == '수입'}">
-							 					<div>수입 : ${c.cashbookPrice}</div>
+							 					<div style="color: #B2EBF4;">수입 : ${c.cashbookPrice}</div>
 							 				</c:if>
 							 				<c:if test="${c.cashbookKind == '지출'}">
-							 					<div>지출 : ${c.cashbookPrice}</div>
+							 					<div style="color: orange;">지출 : ${c.cashbookPrice}</div>
 							 				</c:if>
 							 			</c:if>
 							 		</c:forEach>

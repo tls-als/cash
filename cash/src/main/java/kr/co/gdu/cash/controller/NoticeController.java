@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -46,9 +47,9 @@ public class NoticeController {
 	}
 	
 	// 공지 상세 보기(넘겨질 값이 있음 -> model 사용.)
-	@GetMapping("/admin/noticeOne")
+	@GetMapping("/admin/noticeOne/{noticeId}")
 	public String noticeOne(Model model,
-			@RequestParam(value = "noticeId") int noticeId) {
+			@PathVariable(value = "noticeId") int noticeId) {
 		// noticeService 호출
 		List<Notice> list = noticeService.getSelectDetailNoticeList(noticeId);
 		model.addAttribute("list", list);
@@ -56,15 +57,17 @@ public class NoticeController {
 	}
 	
 	// 공지삭제
-	@GetMapping("/admin/removeNotice")
-	public String removeNotice(@RequestParam(value = "noticeId") int noticeId) {
+	@GetMapping("/admin/removeNotice/{noticeId}")
+	public String removeNotice(
+			@PathVariable(value = "noticeId") int noticeId) {
 		noticeService.setDeleteNoticeList(noticeId);
 		return "redirect:/admin/noticeList";
 	}
 	
 	// 공지수정폼(list 가져와야 함)
-	@GetMapping("/admin/modifyNotice")
-	public String modifyNotice(Model model, @RequestParam(value = "noticeId") int noticeId) {
+	@GetMapping("/admin/modifyNotice/{noticeId}")
+	public String modifyNotice(Model model, 
+			@PathVariable(value = "noticeId") int noticeId) {
 		List<Notice> noticeList = noticeService.getSelectModifyNoticeList(noticeId);
 		model.addAttribute("noticeList", noticeList);
 		return "modifyNotice";

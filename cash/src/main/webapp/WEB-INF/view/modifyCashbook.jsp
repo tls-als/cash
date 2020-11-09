@@ -13,9 +13,9 @@
 	<div style="margin-top: 50px" align="center">
 	<h1>modifyCashbook 수정폼</h1><br>
 	<div>
-		<h5><span class="text-primary">[${param.currentYear}년 ${param.currentMonth}월 ${param.currentDay}일]</span></h5>
+		<h5><span class="text-primary">[${currentYear}년 ${currentMonth}월 ${currentDay}일]</span></h5>
 	</div>
-	<form action="/admin/modifyCashbook?currentYear=${param.currentYear}&currentMonth=${param.currentMonth}&currentDay=${param.currentDay}" method="post">
+	<form action="/admin/modifyCashbook/${currentYear}/${currentMonth}/${currentDay}" method="post">
 		<table class="table table-bordered table-striped">
 			<c:forEach var="c" items="${cashbookList}">
 				<tr>
