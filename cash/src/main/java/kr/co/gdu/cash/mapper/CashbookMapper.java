@@ -17,5 +17,9 @@ public interface CashbookMapper {
 	List<Cashbook> selectCashbookListByDay(Map<String, Object> map);	// 일별 가계를 조회하는 매서드(매개변수: 연달일)
 	List<Cashbook> selectDetailCashbookList(int cashbookId); // 수정폼에서 출력하기 위한 가계부 상세 내용 조회
 	int updateCashbook(Cashbook cashbook);	// 가계부 수정을 위한 메서드
-	int deleteCashbook(int cashbookId);
+	int deleteCashbook(int cashbookId);		// 가계부 삭제하는 메서드
+	List<Cashbook> selectCashbookListByPage(Map<String, Object> map);	// 전체 가계부리스트 출력하는 메서드(beginRow, rowPerPage)
+	List<Cashbook> selectCashbookListAll(); // 엑셀파일
+	int pagingCashbookTotalCount();	// 페이징을 위한 가계부 총 행의 수
+	
 }

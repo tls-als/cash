@@ -19,9 +19,17 @@ import kr.co.gdu.cash.vo.Category;
 
 @Controller	// 컨트롤러 애너테이션 추가하기
 public class CashbookController {
-	
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
+	// 가계부 전체 리스트 조회
+	@GetMapping("/admin/cashbookList/{currentPage}")
+	public String cashbookList(Model model,
+			@PathVariable(name = "currentPage", required = true) int currentPage) {
+		int rowPerPage = 20;
+		List<Cashbook> list = cashbookService.getCashbookListByPage(currentPage, rowPerPage);
+		model.addAttribute("list", list);
+		return "cashbookList";
+	}
 	// 일별 가계부 내용 삭제
 	@GetMapping("/admin/deleteCashbook/{cashbookId}/{currentYear}/{currentMonth}/{currentDay}")
 	public String deleteCashbook(Model model,

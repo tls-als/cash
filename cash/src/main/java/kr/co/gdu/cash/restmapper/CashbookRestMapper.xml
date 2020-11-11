@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 마이바티스 xml -->
+<mapper namespace="kr.co.gdu.cash.restmapper.CashbookRestMapper">
+	<!-- 1년간 수입/지출 합계 조회 쿼리 -->
+	<select id="selectTotalPriceByYear" parameterType="int" resultType="java.util.Map">
+		SELECT
+			YEAR(cashbook_date) "year",
+			SUM(case when cashbook_kind = '수입' then cashbook_price END) "income",
+			SUM(case when cashbook_kind = '지출' then cashbook_price END) "outlay"
+		FROM cashbook
+		WHERE YEAR(cashbook_date) = #{year}
+	</select>
+</mapper>

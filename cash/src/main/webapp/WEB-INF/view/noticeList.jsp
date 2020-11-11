@@ -10,8 +10,9 @@
 <body>
 <div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	<div style="margin-top: 50px" align="center">
-		<h1>공지사항 LIST</h1><br>
+	<div class="jumbotron">
+		<h1>공지사항 LIST</h1>
+	</div>
 		<!-- 공지 추가하기 -->
 		<div><a class="btn btn-outline-info" href="/admin/addNotice">공지 추가하기</a></div>
 		<!-- 공지리스트 -->

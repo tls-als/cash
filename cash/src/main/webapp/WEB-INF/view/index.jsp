@@ -11,10 +11,11 @@
 <div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<!-- 공지사항 -->
-	<div style="margin-top: 50px" align="center">
-		<h1>Home</h1><br>
+	<div class="jumbotron">
+		<h1>Home</h1>
+	</div>
 		<h5><span class="text-success">공지사항</span></h5>
-		<div><a href="/admin/noticeList/1" class="btn btn-outline-info btn-sm">more</a></div>
+		<div align="right"><a href="/admin/noticeList/1" class="btn btn-outline-info btn-sm">more</a></div>
 		<div>
 			<table class="table table-bordered table-striped">
 				<thead>

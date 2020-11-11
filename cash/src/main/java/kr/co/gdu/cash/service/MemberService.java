@@ -11,6 +11,10 @@ import kr.co.gdu.cash.vo.Member;
 @Transactional
 public class MemberService {
 	@Autowired private MemberMapper memberMapper;	// 회원 조회하는 매퍼 주입.
+	// 멤버 추가
+	public int addMember(Member member) {
+		return memberMapper.insertMember(member);
+	}
 	
 	public Member getMemberById(Member paramMember) {
 		Member member = memberMapper.selectMemberById(paramMember.getId());	// 회원 조회 데이터를 vo에 담기		

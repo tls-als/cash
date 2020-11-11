@@ -48,7 +48,7 @@
 			<a class="btn btn-info btn-sm" href="/admin/cashbookByMonth/next/${currentYear}/${currentMonth+1}">다음달</a>
 		</h3>
 		<div>
-			<div><a href="/admin/cashbookByMonth/now/-1/-1" class="btn btn-outline-dark btn-sm">오늘날</a></div>
+			<div><a href="/admin/cashbookByMonth/now/-1/-1" class="btn btn-outline-dark btn-sm">오늘로</a></div>
 			<table class="table table-bordered table-dark">
 				<thead>
 					<tr height="50">

@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- 마이바티스 xml -->
 <mapper namespace="kr.co.gdu.cash.mapper.MemberMapper">
+	<insert id="insertMember" parameterType="kr.co.gdu.cash.vo.Member">
+		INSERT INTO member(
+			id,
+			pw
+		) VALUES(
+			#{id},
+			#{pw}
+		)
+	</insert>
 	<select id="selectMemberById" parameterType="String" resultType="kr.co.gdu.cash.vo.Member">
 		SELECT
 			id,

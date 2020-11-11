@@ -8,11 +8,17 @@
 	  <li class="nav-item">
 	    <a class="nav-link" href="/admin/cashbookByMonth/now/-1/-1">cashbook</a>
 	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="/admin/logout">logout</a>
+	   <li class="nav-item">
+	    <a class="nav-link" href="/admin/cashbookList/1">cashbookList</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="http://localhost:8080/cashStats.html">cashStats</a>
+	    <a class="nav-link" href="/admin/chart1.jsp">통계자료</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/admin/addMember">사용자등록</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/admin/logout">logout</a>
 	  </li>
 	</ul>
 </nav>

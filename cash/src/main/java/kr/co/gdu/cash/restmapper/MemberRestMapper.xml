@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 마이바티스 xml -->
+<mapper namespace="kr.co.gdu.cash.restmapper.MemberRestMapper">
+	<select id="selectMemberId" parameterType="String" resultType="String">	<!-- parameterType는 java.lang.String으로 해도됨 -->
+		SELECT id
+		FROM member
+		WHERE id = #{id}	<!-- 값이 하나밖에 없기에 아무 값이나 넣어도 됨 #{goodee} -->
+	</select>
+</mapper>

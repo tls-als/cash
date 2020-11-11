@@ -15,6 +15,17 @@ import kr.co.gdu.cash.vo.Cashbook;
 @Transactional
 public class CashbookService {
 	@Autowired private CashbookMapper cashbookMapper;	// 주입(외부 의존성주입)
+	// 엑셀파일을 위한 쿼리 조회
+	public List<Cashbook> getCashbookListAll() {
+		return cashbookMapper.selectCashbookListAll();
+	}
+	// 가계부 전체 내용을 조회
+	public List<Cashbook> getCashbookListByPage(int currentPage, int rowPerPage) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("beginRow", (currentPage-1)*rowPerPage);
+		map.put("rowPerPage", rowPerPage);
+		return cashbookMapper.selectCashbookListByPage(map);
+	}
 	// 가계부 삭제
 	public int deleteCashbook(int cashbookId) {
 		return cashbookMapper.deleteCashbook(cashbookId);
