@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.gdu.cash.service.CashbookService;
 import kr.co.gdu.cash.service.CategoryService;
@@ -21,13 +20,35 @@ import kr.co.gdu.cash.vo.Category;
 public class CashbookController {
 	@Autowired private CashbookService cashbookService;
 	@Autowired private CategoryService categoryService;
-	// 가계부 전체 리스트 조회
+	// 가계부 전체 리스트 조회, 행의 전체 카운트
 	@GetMapping("/admin/cashbookList/{currentPage}")
 	public String cashbookList(Model model,
-			@PathVariable(name = "currentPage", required = true) int currentPage) {
-		int rowPerPage = 20;
+			@PathVariable(name = "currentPage", required = true) int currentPage) {	// 현재 페이지
+		int rowPerPage = 20;	// 한 페이지에서 보여질 테이블 행의 수
+		int totalCount = cashbookService.getCashbookTotalCount();	// 전체 행의 수
+		int lastPage = totalCount/rowPerPage;	// 마지막 페이지
+		if(totalCount%rowPerPage != 0) {	// 나머지가 있다면 마지막 페이지의 +1
+			lastPage += 1;
+		}
+		// 페이징 네비게이션
+		int navPerPage = 10;	// 한 네비게이션에서 출력될 범위(1~10, 21~30..)
+		int navStartPage = currentPage-(currentPage%navPerPage) +1;	// 한 페이지에서 시작하는 네비게이션 번호(10단위로 넘어갈 때까지 1을 시작페이지로 고정)
+		System.out.println(navStartPage + "=> 네비게이션 시작 페이지");
+		int navEndPage = navStartPage+navPerPage-1; // 페이지 단위로 끝나는 네비게이션 번호
+		System.out.println(navEndPage + "=> 네비게이션 끝 페이지");
+		
+		// 현재 네비게이션 위치가 10일때(자동으로 네비게이션 시작번호가 넘어갈 때)
+		if(currentPage%navPerPage == 0) {
+			navStartPage = navStartPage-navPerPage; 	// currentPage가 이동할 때마다 위코드가 실행기에 navStartPage가 자동으로 넘어가게 됨
+			navEndPage = navEndPage-navPerPage;
+		}
+		
+		//System.out.println(totalCount + ": 행의 전체 수 카운트");
 		List<Cashbook> list = cashbookService.getCashbookListByPage(currentPage, rowPerPage);
-		model.addAttribute("list", list);
+		model.addAttribute("lastPage", lastPage);	// 마지막 페이지 번호
+		model.addAttribute("list", list);	// 가계부 리스트
+		model.addAttribute("navEndPage", navEndPage);	// 네비게이션: 끝나는 번호
+		model.addAttribute("navStartPage", navStartPage);	// 네비게이션: 시작 번호
 		return "cashbookList";
 	}
 	// 일별 가계부 내용 삭제

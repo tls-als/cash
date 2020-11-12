@@ -16,7 +16,7 @@
 			notice_date as noticeDate
 		FROM notice
 		ORDER BY notice_date DESC
-		LIMIT 0,5;
+		LIMIT 0,5
 	</select>
 	<!-- 
 		공지사항 리스트를 페이지별로 보이는 쿼리 

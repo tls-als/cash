@@ -29,7 +29,7 @@
 			<div>
 				<button class="btn btn-success" type="submit">로그인</button>
 			</div>
-		</form><br>
+		</form><br>		
 		<h1>공지사항</h1>
 		<div>
 			<table class="table table-bordered table-striped">
@@ -45,12 +45,12 @@
 						<tr>
 							<td>${n.noticeId}</td>
 							<td>${n.noticeTitle}</td>
-							<td>${n.noticeDate}</td>	<!-- n.getNoticeContent(). setter&getter는 점으로 호출 -->
+							<td>${n.noticeDate}</td>	 <!-- n.getNoticeContent(). setter&getter는 점으로 호출 -->
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
+		</div>	 
 	</div>
 </div>
 </body>

@@ -22,8 +22,8 @@ public interface NoticeMapper {
 	int deleteNoticeList(int noticeId);
 	// 공지사항 상세보기
 	List<Notice> selectDetailNoticeList(int noticeId);
-	// index 화면에 최근 5개의 공지를 보여주는 메서드(인터페이스-추상메서드)
-	List<Notice> selectLatesNoticeList();
+	// index 화면에 최근 공지를 보여주는 메서드(인터페이스-추상메서드)
+	List<Notice> selectLatesNoticeList();	// 시작페이지,행의수 매개변수로 담기
 	// 공지사항 리스트를 페이지 별로 조회하는 메서드
 	List<Notice> selectNoticeListByPage(Map<String, Integer> map);	// 페이징을 위한 시작페이지, 한페이지의 행의수를 받기에 Integer. 검색도 받으려면 Object
 	// 공지사항 리스트 전체 수(카운팅)

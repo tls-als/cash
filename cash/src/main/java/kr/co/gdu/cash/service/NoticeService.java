@@ -69,8 +69,10 @@ public class NoticeService {
 		map.put("inOutList", inOutList);
 		return map;
 	}
+	
 	// 로그인화면에서 보여지는 공지사항
 	public List<Notice> getNoticeList() {		
 		return noticeMapper.selectLatesNoticeList();
 	}
+	
 }

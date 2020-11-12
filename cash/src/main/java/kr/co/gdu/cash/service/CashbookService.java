@@ -15,6 +15,10 @@ import kr.co.gdu.cash.vo.Cashbook;
 @Transactional
 public class CashbookService {
 	@Autowired private CashbookMapper cashbookMapper;	// 주입(외부 의존성주입)
+	// 가계부 전체 행의 수 카운트
+	public int getCashbookTotalCount() {
+		return cashbookMapper.pagingCashbookTotalCount();
+	}
 	// 엑셀파일을 위한 쿼리 조회
 	public List<Cashbook> getCashbookListAll() {
 		return cashbookMapper.selectCashbookListAll();
