@@ -11,7 +11,7 @@
 <div class="container">
 	<div style="margin-top: 50px" align="center">
 		<h1>로그인</h1>
-		<form action="/login" method="post">
+		<form action="${pageContext.request.contextPath}/login" method="post">
 			<table>
 				<tr>
 					<td>ID</td>

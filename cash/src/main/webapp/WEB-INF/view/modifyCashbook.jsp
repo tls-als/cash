@@ -15,7 +15,7 @@
 	<div>
 		<h5><span class="text-primary">[${currentYear}년 ${currentMonth}월 ${currentDay}일]</span></h5>
 	</div>
-	<form action="/admin/modifyCashbook/${currentYear}/${currentMonth}/${currentDay}" method="post">
+	<form action="${pageContext.request.contextPath}/admin/modifyCashbook/${currentYear}/${currentMonth}/${currentDay}" method="post">
 		<table class="table table-bordered table-striped">
 			<c:forEach var="c" items="${cashbookList}">
 				<tr>

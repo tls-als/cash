@@ -34,9 +34,8 @@ public class CashbookController {
 		int navPerPage = 10;	// 한 네비게이션에서 출력될 범위(1~10, 21~30..)
 		int navStartPage = currentPage-(currentPage%navPerPage) +1;	// 한 페이지에서 시작하는 네비게이션 번호(10단위로 넘어갈 때까지 1을 시작페이지로 고정)
 		System.out.println(navStartPage + "=> 네비게이션 시작 페이지");
-		int navEndPage = navStartPage+navPerPage-1; // 페이지 단위로 끝나는 네비게이션 번호
+		int navEndPage = navStartPage+navPerPage-1; // 페이지 단위(10개씩 번호매김)로 끝나는 네비게이션 번호
 		System.out.println(navEndPage + "=> 네비게이션 끝 페이지");
-		
 		// 현재 네비게이션 위치가 10일때(자동으로 네비게이션 시작번호가 넘어갈 때)
 		if(currentPage%navPerPage == 0) {
 			navStartPage = navStartPage-navPerPage; 	// currentPage가 이동할 때마다 위코드가 실행기에 navStartPage가 자동으로 넘어가게 됨

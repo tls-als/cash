@@ -11,7 +11,7 @@
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div style="margin-top: 50px" align="center">
 		<h1>공지사항 입력</h1>
-		<form action="/admin/addNotice" method="post">
+		<form action="${pageContext.request.contextPath}/admin/addNotice" method="post">
 			<table class="table table-bordered">
 				<tr>
 					<td>공지 제목</td>

@@ -43,12 +43,12 @@
 			1. 이전달 클릭시 request에 현재 연도와 (이번달-1)
 			2. currentYear: 현재 연도, currentMonth: 현재 달
 		 -->
-			<a class="btn btn-info btn-sm" href="/admin/cashbookByMonth/pre/${currentYear}/${currentMonth-1}">이전달</a> 
+			<a class="btn btn-info btn-sm" href="${pageContext.request.contextPath}/admin/cashbookByMonth/pre/${currentYear}/${currentMonth-1}">이전달</a> 
 			<span class="text-primary">${currentYear}년 ${currentMonth}월</span>
-			<a class="btn btn-info btn-sm" href="/admin/cashbookByMonth/next/${currentYear}/${currentMonth+1}">다음달</a>
+			<a class="btn btn-info btn-sm" href="${pageContext.request.contextPath}/admin/cashbookByMonth/next/${currentYear}/${currentMonth+1}">다음달</a>
 		</h3>
 		<div>
-			<div><a href="/admin/cashbookByMonth/now/-1/-1" class="btn btn-outline-dark btn-sm">오늘로</a></div>
+			<div><a href="${pageContext.request.contextPath}/admin/cashbookByMonth/now/-1/-1" class="btn btn-outline-dark btn-sm">오늘로</a></div>
 			<table class="table table-bordered table-dark">
 				<thead>
 					<tr height="50">

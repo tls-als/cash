@@ -7,9 +7,9 @@
 	<!-- 1년간 수입/지출 합계 조회 쿼리 -->
 	<select id="selectTotalPriceByYear" parameterType="int" resultType="java.util.Map">
 		SELECT
-			YEAR(cashbook_date) "year",
-			SUM(case when cashbook_kind = '수입' then cashbook_price END) "income",
-			SUM(case when cashbook_kind = '지출' then cashbook_price END) "outlay"
+			YEAR(cashbook_date) year,
+			SUM(case when cashbook_kind = '수입' then cashbook_price END) income,
+			SUM(case when cashbook_kind = '지출' then cashbook_price END) outlay
 		FROM cashbook
 		WHERE YEAR(cashbook_date) = #{year}
 	</select>

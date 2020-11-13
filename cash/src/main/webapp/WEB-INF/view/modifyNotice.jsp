@@ -12,7 +12,7 @@
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div style="margin-top: 50px" align="center">
 	<h1>공지사항 수정</h1><br>
-	<form method="post" action="/admin/modifyNotice">
+	<form method="post" action="${pageContext.request.contextPath}/admin/modifyNotice">
 		<table class="table table-bordered table-striped">
 		<c:forEach var="c" items="${noticeList}">
 			<tr>

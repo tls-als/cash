@@ -3,22 +3,22 @@
 	<a class="navbar-brand">CashBook</a>
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-	    <a class="nav-link" href="/">index</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/">index</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="/admin/cashbookByMonth/now/-1/-1">cashbook</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/admin/cashbookByMonth/now/-1/-1">cashbook</a>
 	  </li>
 	   <li class="nav-item">
-	    <a class="nav-link" href="/admin/cashbookList/1">cashbookList</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/admin/cashbookList/1">cashbookList</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="/admin/chart1.jsp">통계자료</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/admin/chart1.jsp">통계자료</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="/admin/addMember">사용자등록</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/admin/addMember">사용자등록</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="/admin/logout">logout</a>
+	    <a class="nav-link" href="${pageContext.request.contextPath}/admin/logout">logout</a>
 	  </li>
 	</ul>
 </nav>

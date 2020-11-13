@@ -46,7 +46,7 @@
 <div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<h1>addMember</h1>
-	<form method="post" action="/admin/addMember" id="formLogin">
+	<form method="post" action="${pageContext.request.contextPath}/admin/addMember" id="formLogin">
 		<div>
 			ID : <input type="text" id="id" name="id">
 		</div>

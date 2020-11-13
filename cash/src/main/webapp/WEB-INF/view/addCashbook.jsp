@@ -12,7 +12,7 @@
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div style="margin-top: 50px" align="center">
 		<h1>addCashbook</h1><br>
-		<form method="post" action="/admin/addCashbook">
+		<form method="post" action="${pageContext.request.contextPath}/admin/addCashbook">
 			<table class="table table-bordered table-striped">
 				<tr>
 					<td>cashbook_date</td>

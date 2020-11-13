@@ -15,7 +15,7 @@
 		<h1>Home</h1>
 	</div>
 		<h5><span class="text-success">공지사항</span></h5>
-		<div align="right"><a href="/admin/noticeList/1" class="btn btn-outline-info btn-sm">more</a></div>
+		<div align="right"><a href="${pageContext.request.contextPath}/admin/noticeList/1" class="btn btn-outline-info btn-sm">more</a></div>
 		<div>
 			<table class="table table-bordered table-striped">
 				<thead>

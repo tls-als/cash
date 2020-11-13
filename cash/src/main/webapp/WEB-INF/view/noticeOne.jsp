@@ -32,7 +32,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<a class="btn btn-primary" href="/admin/noticeList">뒤로가기</a>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/noticeList">뒤로가기</a>
 	</div>
 </div>
 </body>

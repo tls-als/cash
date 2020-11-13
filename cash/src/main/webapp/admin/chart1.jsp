@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +19,7 @@
 	<div class="input-group justify-content-end" style="margin-top: 20px">
 		<input class="form-control col-lg-2" type="text" id="year" placeholder="연도 검색">
 		<div class="input-group-append">
-			<button class="btn btn-dark">검색</button>
+			<button class="btn btn-dark" id="chartSearch">검색</button>
 		</div>
 	</div>
 	<!-- chart -->
@@ -33,14 +32,31 @@
 </body>
 </div>
 <script>
-	$.ajax({
+	// 1년간 수입/지출을 나타내는 바(bar) 그래프
+	$('#chartSearch').click(function() {
+		$.ajax({	// 비동기 요청
 			url:'/admin/chart1',
 			type:'get',
 			data:{year:$('#year').val()},
 			success:function(data) {
 			// data(json문자열) -> 데이터셋(chart.js..) -> chart
-				console.log(data)
+				var ctx = $('#chart1');
+				var chart = new Chart(ctx, {
+					type: 'pie',
+				    data: {
+				        labels: ['수입', '지출'],
+				        datasets: [{
+				            label: '월별 지출 통계',
+				            backgroundColor: ['rgb(103, 153, 255)', 'rgb(250, 244, 192)'],
+				            borderColor: ['rgb(0, 0, 145)', 'rgb(204, 114, 61)'],
+				            data: [data.income, data.outlay]
+				        }]
+				    },
+				    options: {}
+				});
 			}
 		});
+	});
+
 </script>
 </html>
