@@ -16,13 +16,13 @@
 				<tr>
 					<td>ID</td>
 					<td>
-						<input class="form-control col-sm-10" type="text" name="id">
+						<input class="form-control col-sm-10" type="text" name="id" value="goodee">
 					</td>
 				</tr>
 				<tr>
 					<td>PW</td>
 					<td>
-						<input class="form-control col-sm-10" type="password" name="pw">
+						<input class="form-control col-sm-10" type="password" name="pw" value="1234">
 					</td>
 				</tr>
 			</table><br>
