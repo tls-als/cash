@@ -16,11 +16,11 @@
 <div class="container">
 <jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div class="jumbotron">
-		<h1>1년간 수입/지출 통계</h1>
+		<h1>연간 수입/지출 통계</h1>
 	</div>
-	<!-- 연도를 입력받는 부분 -->
-	<div class="input-group justify-content-end" style="margin-top: 20px">
-		<input class="form-control col-lg-2" type="text" id="year" placeholder="연도 검색">
+	<!-- 연도를 입력받는 검색창 -->
+	<div class="input-group justify-content-center" style="margin-top: 20px; margin-bottom: 50px">
+		<input class="form-control col-lg-3" type="text" id="year" placeholder="연도를 검색하세요.">
 		<div class="input-group-append">
 			<button class="btn btn-dark" id="chartSearch">검색</button>
 		</div>
@@ -28,9 +28,6 @@
 	<!-- chart -->
 	<div>
 		<canvas id="chart1"></canvas>
-	</div>
-	<!-- table -->
-	<div>
 	</div>
 </div>
 </body>

@@ -5,7 +5,7 @@
   <!-- 마이바티스 xml -->
 <mapper namespace="kr.co.gdu.cash.restmapper.CashbookRestMapper">
 	<!-- 월별 수입/지출 통계 쿼리 -->
-	<select id="">
+	<select id="selectTotalPricebByMonth" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			YEAR(cashbook_date) YEAR,
 			SUM(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
