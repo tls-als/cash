@@ -4,6 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- 마이바티스 xml -->
 <mapper namespace="kr.co.gdu.cash.restmapper.CashbookRestMapper">
+	<!-- 월별 수입/지출 통계 쿼리 -->
+	<select id="">
+		SELECT 
+			YEAR(cashbook_date) YEAR,
+			SUM(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
+			SUM(case when MONTH(cashbook_date)=02 then cashbook_price END) feb,
+			SUM(case when MONTH(cashbook_date)=03 then cashbook_price END) mar,
+			SUM(case when MONTH(cashbook_date)=04 then cashbook_price END) apr,
+			SUM(case when MONTH(cashbook_date)=05 then cashbook_price END) may,
+			SUM(case when MONTH(cashbook_date)=06 then cashbook_price END) jun,
+			SUM(case when MONTH(cashbook_date)=07 then cashbook_price END) jul,
+			SUM(case when MONTH(cashbook_date)=08 then cashbook_price END) aug,
+			SUM(case when MONTH(cashbook_date)=09 then cashbook_price END) sep,
+			SUM(case when MONTH(cashbook_date)=10 then cashbook_price END) octob,
+			SUM(case when MONTH(cashbook_date)=11 then cashbook_price END) nov,
+			SUM(case when MONTH(cashbook_date)=12 then cashbook_price END) decem
+		FROM cashbook
+		WHERE YEAR(cashbook_date) = #{year} AND cashbook_kind = #{cashbookKind}
+	</select>
 	<!-- 1년간 수입/지출 합계 조회 쿼리 -->
 	<select id="selectTotalPriceByYear" parameterType="int" resultType="java.util.Map">
 		SELECT
