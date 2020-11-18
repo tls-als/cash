@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <meta charset="UTF-8">
-<title>chart1</title>
+<title>chart2</title>
 </head>
 <body>
 <!-- jQuery library -->
@@ -17,7 +16,7 @@
 <div class="container">
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div class="jumbotron">
-		<h1>월별 수입/지출 통계</h1>
+		<h1>월별 수입 통계</h1>
 	</div>
 	<!-- 연도를 입력받는 검색창 -->
 	<div class="input-group justify-content-center" style="margin-top: 20px; margin-bottom: 50px">
@@ -25,52 +24,69 @@
 		<div class="input-group-append">
 			<button class="btn btn-dark" id="chartSearch">검색</button>
 		</div>
-		<div class="input-group justify-content-end">
-			<select class="form-control col-lg-2" id="cashbookKind">
-				<option value="수입">수입</option>
-				<option value="지출">지출</option>
-			</select>
-		</div>
 	</div>
 	<!-- chart -->
 	<div>
 		<canvas id="chart2"></canvas>
 	</div>
-	<!-- table -->
-	<div>
-	</div>
 </div>
 </body>
 <script>
-	let i;
-	for(i=0; i<120; i++) {
-		i += 10;
-	}
+	var myChart;
 	$('#chartSearch').click(function() {
 		$.ajax({
 				url:'/admin/chart2',
 				type:'get',
-				data:{year:${'#year'}.val(), cashbookKind:${'#cashbookKind'}.val()},
+				data:{year:$('#year').val()},
 				success:function(data) {
-					let ctx = $('#chart2')
+					if(myChart) {
+						myChart.destroy();	// 기존에 그래프 객체가 있으면 삭제
+					}
+					var ctx = $('#chart2');
 					myChart = new Chart(ctx, {
-						type: 'bar',
+						type:'bar',
 					    data: {
-					    	labels:['1','2','3','4','5','6','7','8','9','10','11','12'],
-					        datasets: [{
-					        	label: '1년간 월별 지출',
-					            data: [data.jan, data.feb, data.mar, data.apr,
-									  data.may, data.jun, data.jul, data.aug,
-									  data.sep, data.octob, data.nov, data.decem],
-					      		backgroundColor:['rgba(255, i, 132, 0.2)'],
-					      		borderColor:['rgba(255, 20, i, 0.2)'],
+					    	labels:['January','February','March','April','May','June','July','August','September','October','November','Decepber'],
+					        datasets:[{
+					        	label: $('#year').val()+ '년 수입 통계',
+					      		backgroundColor:[						      		
+						      		'rgba(125, 50, 132, 0.2)',
+						      		'rgba(54, 162, 25, 0.2)',
+					                'rgba(255, 206, 186, 0.2)',
+					                'rgba(75, 25, 192, 0.2)',
+					                'rgba(15, 102, 255, 0.2)',
+					                'rgba(205, 159, 64, 0.2)',
+					                'rgba(255, 99, 132, 0.2)',
+					                'rgba(54, 162, 235, 0.2)',
+					                'rgba(255, 206, 86, 0.2)',
+					                'rgba(75, 192, 192, 0.2)',
+					                'rgba(153, 102, 255, 0.2)',
+					                'rgba(255, 159, 64, 0.2)'
+						      	],
+					      		borderColor:[
+						      		'rgba(255, 20, 58, 0.2)',
+						      		'rgba(54, 162, 235, 1)',
+					                'rgba(255, 206, 86, 1)',
+					                'rgba(75, 192, 192, 1)',
+					                'rgba(153, 102, 255, 1)',
+					                'rgba(255, 159, 64, 1)',
+					                'rgba(255, 99, 132, 1)',
+					                'rgba(54, 162, 235, 1)',
+					                'rgba(255, 206, 86, 1)',
+					                'rgba(75, 192, 192, 1)',
+					                'rgba(153, 102, 255, 1)',
+					                'rgba(255, 159, 64, 1)'
+						      	],
+					      		data:[data.jan, data.feb, data.mar, data.apr,
+									 data.may, data.jun, data.jul, data.aug,
+									 data.sep, data.octob, data.nov, data.decem],
 					      		borderWidth: 1
 					        }]
 					    },
-					    options: options
+					    options:{}
 					});
 				}
 			});
-		)};
+		});
 </script>
 </html>

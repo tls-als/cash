@@ -13,9 +13,14 @@ import kr.co.gdu.cash.restmapper.CashbookRestMapper;
 @Transactional
 public class CashbookRestService {
 	@Autowired CashbookRestMapper cashbookRestMapper;	// 매퍼 객체 주입
-	// 월별 수입/지출 합계를 받아오는 메서드
-	public Map<String, Object> cashbookTotalPriceByMonth(Map<String, Object> map) {
-		return cashbookRestMapper.selectTotalPricebByMonth(map);
+	
+	// 월별 지출 통계를 받아오는 메서드
+	public Map<String, Object> cashbookOutlayPriceByMonth(int year) {
+		return cashbookRestMapper.selectOutlayPriceByMonth(year);
+	}
+	// 월별 수입 통계를 받아오는 메서드
+	public Map<String, Object> cashbookIncomePriceByMonth(int year) {
+		return cashbookRestMapper.selectIncomePriceByMonth(year);
 	}
 	// 1년간 수입/지출 합계를 받아오는 메서드
 	public Map<String, Object> cashbookTotalPriceByYear(int year) {
