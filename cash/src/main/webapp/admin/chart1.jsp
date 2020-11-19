@@ -56,7 +56,14 @@
 				            data: [data.income, data.outlay]
 				        }]
 				    },
-				    options: {}
+				    options: {
+				    	title: {	// 그래프 타이틀 설정
+				            display: true,
+				            text: $('#year').val() + '년 수입/지출 비율',
+				            fontStyle: 'bold',
+				            fontSize: 20
+				        }
+			        }
 				});
 			}
 		});
