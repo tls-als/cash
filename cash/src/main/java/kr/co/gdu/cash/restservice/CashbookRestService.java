@@ -13,6 +13,10 @@ import kr.co.gdu.cash.restmapper.CashbookRestMapper;
 @Transactional
 public class CashbookRestService {
 	@Autowired CashbookRestMapper cashbookRestMapper;	// 매퍼 객체 주입
+	// 연간 최대 수입/최저 수입 통계
+	public Map<String, Object> maxAndMinIncomeByYear(int year) {
+		return cashbookRestMapper.selectMaxAndMinIncomeByYear(year);
+	}
 	// 월별 평균 지출 통계를 받아오는 메서드
 	public Map<String, Object> avgOutlaybyMonth(int year) {
 		return cashbookRestMapper.selectAvgOutlayByMonth(year);
