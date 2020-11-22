@@ -14,7 +14,11 @@ import kr.co.gdu.cash.restservice.CashbookRestService;
 @RestController
 public class CashbookRestController {
 	@Autowired CashbookRestService cashbookRestService;	// 서비스 객체 주입
-	
+	// 월별 평균 수입을 구하는 컨트롤러
+	@GetMapping("/admin/chart5")
+	public Map<String, Object> getAvgOutlayByMonth(@RequestParam(name = "year") int year) {
+		return cashbookRestService.avgOutlaybyMonth(year);
+	}
 	// 월별 평균 수입을 구하는 컨트롤러
 	@GetMapping("/admin/chart4")
 	public Map<String, Object> getAvgIncomeByMonth(@RequestParam(name = "year") int year) {

@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <meta charset="UTF-8">
-<title>chart1</title>
+<title>chart4</title>
 </head>
 <body>
 <!-- jQuery library -->
@@ -32,6 +32,7 @@
 	</div>
 	<!-- table 출력하는 부분 -->
 	<div>
+		<span id="tableResult"></span>	
 	</div>
 </div>
 </body>
@@ -64,7 +65,52 @@
 					   	 }]
 				    },
 				    options: {}
-				});					
+				});	
+			}
+		});
+	});
+	$('#chartSearch').click(function(){
+		$.ajax({
+			url:'/admin/chart4',
+			type:'get',
+			data:{year:$('#year').val()},
+			success: function(data) {
+			console.log(data);
+			let html = `
+				<table border="1">
+					<tr>
+						<th>january</th>
+						<th>february</th>
+						<th>march</th>
+						<th>april</th>
+						<th>may</th>
+						<th>june</th>
+						<th>july</th>
+						<th>august</th>
+						<th>september</th>
+						<th>october</th>
+						<th>november</th>
+						<th>december</th>
+						<th>Total</th>
+					</tr>
+					<tr>
+						<td>\${data.jan}</td>
+						<td>\${data.feb}</td>
+						<td>\${data.mar}</td>
+						<td>\${data.apr}</td>
+						<td>\${data.may}</td>
+						<td>\${data.jun}</td>
+						<td>\${data.jul}</td>
+						<td>\${data.aug}</td>
+						<td>\${data.sep}</td>
+						<td>\${data.octob}</td>
+						<td>\${data.nov}</td>
+						<td>\${data.decem}</td>
+						<td>\${data.total}</td>
+					</tr>
+				</table>
+			`;
+			$('#tableResult').html(html);
 			}
 		});
 	});

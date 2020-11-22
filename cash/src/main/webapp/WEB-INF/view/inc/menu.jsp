@@ -17,8 +17,8 @@
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart1.jsp">연간 수입/지출</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart2.jsp">연간 월별 수입</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart3.jsp">연간 월별 지출</a>
-		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart4.jsp">chart4</a>
-		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart5.jsp">chart5</a>
+		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart4.jsp">월별 평균 수입</a>
+		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart5.jsp">월별 평균 지출</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart6.jsp">chart6</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart7.jsp">chart7</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart8.jsp">chart8</a>
