@@ -77,7 +77,7 @@
 			success: function(data) {
 			console.log(data);
 			let html = `
-				<table border="1">
+				<table class="table table-bordered" border="1">
 					<tr>
 						<th>january</th>
 						<th>february</th>

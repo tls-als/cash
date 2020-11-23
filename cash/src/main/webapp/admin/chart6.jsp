@@ -45,22 +45,28 @@
 				}					
 				var ctx = $('#chart6');
 				myChart = new Chart(ctx, {
-					type: 'line',
+					type: 'horizontalBar',
 				    data: {
-				    	 labels: ['January','February','March','April','May','June','July','August','September','October','November','Decepber'],
+				    	 labels: ['최대 수입','최소 수입'],
 				    	 datasets: [{ 
-				    		 label: $('#year').val()+ '년 평균 지출 통계',
-				             data: [data.jan, data.feb, data.mar, data.apr,
-								 	data.may, data.jun, data.jul, data.aug,
-								 	data.sep, data.octob, data.nov, data.decem],
-				    		 backgroundColor: 'rgba(125,12,100,0.3)',
-				    		 borderColor: 'rgba(93,93,93,0.3)',
-				    		 pointBackgroundColor: 'rgba(0,0,0,0.1)',
-				    		 pointStyle: 'circle',
-				    		 borderWidth: 3
-					   	 }]
+				    		 label: $('#year').val()+ '년 최대/최소 수입 통계',
+				             data: [data.maxIncome, data.minIncome],
+				    		 backgroundColor: ['rgba(125,12,100,0.3)'
+					    		 				,'rgba(85,112,185,0.3)'],
+				    		 borderColor: ['rgba(125,90,15,0.3)',
+				    			 			'rgba(250,10,45,0.3)'],
+	    			 			data:[data.maxIncome, data.minIncome],
+					      		borderWidth: 3
+						 }]
 				    },
-				    options: {}
+				    options: {
+				    	title: {	// 그래프 타이틀 설정
+				            display: true,
+				            text: $('#year').val() + '년 최대/최소 수입',
+				            fontStyle: 'bold',
+				            fontSize: 18
+				        },
+					}
 				});	
 			}
 		});

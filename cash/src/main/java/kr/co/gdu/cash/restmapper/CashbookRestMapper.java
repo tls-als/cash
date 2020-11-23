@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CashbookRestMapper {
-	// 연간 최고 지출, 최저 지출
+	Map<String, Object> selectMaxAndMinOutlayByYear(int year); // 연간 최고 지출, 최저 지출
 	Map<String, Object> selectMaxAndMinIncomeByYear(int year);  // 연간 최고 수입, 최저 수입
 	Map<String, Object> selectAvgIncomeByMonth(int year); // 월별 평균 수입
 	Map<String, Object> selectAvgOutlayByMonth(int year);	// 월별 평균 지출

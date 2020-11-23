@@ -4,6 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- 마이바티스 xml -->
 <mapper namespace="kr.co.gdu.cash.restmapper.CashbookRestMapper">
+	<!-- 연간 최대 지출/최저 지출 통계 쿼리 -->
+	<select id="selectMaxAndMinOutlayByYear" parameterType="int" resultType="java.util.Map">
+		SELECT
+		MAX(case when cashbook_kind= '지출' then cashbook_price END) "maxIncome",
+		MIN(case when cashbook_kind= '지출' then cashbook_price end) "minIncome"
+		FROM cashbook
+		WHERE YEAR(cashbook_date) = #{year}
+	</select>
 	<!-- 연간 최대 수입/최저 수입 통계 쿼리 -->
 	<select id="selectMaxAndMinIncomeByYear" parameterType="int" resultType="java.util.Map">
 		SELECT
