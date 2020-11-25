@@ -12,7 +12,6 @@
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<div style="margin-top: 50px" align="center">
 		<h1>공지 상세보기 페이지</h1><br>
-<<<<<<< HEAD
 		<h3>[ 공지내용 ]</h3>
 		<table class="table table-bordered table-striped">
 			<tr>
@@ -98,29 +97,6 @@
 		<div align="right">
 			<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/noticeList/1">뒤로가기</a>
 		</div>
-=======
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th>noticeId</th>
-					<th>noticeTitle</th>
-					<th>noticeContent</th>
-					<th>noticeDate</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="c" items="${list}">
-					<tr>
-						<td>${c.noticeId}</td>
-						<td>${c.noticeTitle}</td>
-						<td>${c.noticeContent}</td>
-						<td>${c.noticeDate}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/noticeList">뒤로가기</a>
->>>>>>> refs/remotes/origin/master
 	</div>
 </div>
 </body>

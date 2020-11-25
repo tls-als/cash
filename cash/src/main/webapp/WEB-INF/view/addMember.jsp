@@ -50,7 +50,6 @@
 	<jsp:include page="/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	<h1>addMember</h1>
 	<form method="post" action="${pageContext.request.contextPath}/admin/addMember" id="formLogin">
-<<<<<<< HEAD
 		<table class="table table-bordered table-striped">
 			<tr>
 				<td>ID</td>
@@ -62,15 +61,6 @@
 			</tr>
 		</table>
 		<div><button class="btn btn-primary" type="button" id="addMember">회원추가</button></div>	<!-- 이슈: 버튼 JS수정하기 -->
-=======
-		<div>
-			ID : <input type="text" id="id" name="id">
-		</div>
-		<div>
-			PW : <input type="password" id="pw" name="pw">
-		</div>
-		<div><button type="button" id="addMember">회원추가</button></div>	<!-- 이슈: 버튼 JS수정하기 -->
->>>>>>> refs/remotes/origin/master
 	</form>
 </div>
 </body>
