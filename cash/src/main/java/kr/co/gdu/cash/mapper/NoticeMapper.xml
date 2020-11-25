@@ -40,6 +40,7 @@
 	
 	<!-- 공지사항 추가(<insert></insert>) -->
 	<insert id="insertNoticeList" parameterType="kr.co.gdu.cash.vo.Notice">
+<<<<<<< HEAD
 	<selectKey resultType="int" keyProperty="noticeId" order="AFTER">
 		SELECT LAST_INSERT_ID()
 	</selectKey>
@@ -122,4 +123,50 @@
 	
 	
 	
+=======
+		INSERT 
+		INTO notice(notice_title,
+					notice_content,
+					notice_date) 
+		VALUES(#{noticeTitle},#{noticeContent},NOW())
+	</insert>
+	
+	<!-- 공지사항 상세보기 쿼리 -->
+		<select id="selectDetailNoticeList" parameterType="int" resultType="kr.co.gdu.cash.vo.Notice">
+		SELECT 
+			notice_id as noticeId, 
+			notice_title as noticeTitle,
+			notice_content as noticeContent,
+			notice_date as noticeDate
+		FROM notice
+		WHERE notice_id = #{noticeId}
+		ORDER BY notice_date DESC
+		LIMIT 0,5;
+	</select>
+	
+	<!-- 공지사항 삭제 쿼리(result 없음) -->
+	<delete id="deleteNoticeList" parameterType="int">
+		DELETE 
+		FROM notice 
+		WHERE notice_id = #{noticeId}
+	</delete>
+	
+	<!-- 공지사항 수정을 위한 조회 쿼리 -->
+	<select id="selectModifyNoticeList" parameterType="int" resultType="kr.co.gdu.cash.vo.Notice">
+		SELECT notice_id noticeId,
+				notice_title noticeTitle,
+				notice_content noticeContent,
+				notice_date noticeDate
+		FROM notice
+		WHERE notice_id = #{noticeId}
+	</select>
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNoticeList" parameterType="kr.co.gdu.cash.vo.Notice">
+		UPDATE notice
+		SET notice_title = #{noticeTitle},
+			notice_Content = #{noticeContent}
+		WHERE notice_id = #{noticeId}
+	</update>
+>>>>>>> refs/remotes/origin/master
 </mapper>
