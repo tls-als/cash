@@ -32,6 +32,17 @@ public class NoticeController {
 		if(noticeCnt%rowPerPage != 0) {	// 마지막 페이지 구하기
 			lastPage += 1;
 		}
+		// 네비게이션 페이징
+		int navRowPerPage = 10;	// 네비게이션 보여질 페이지 수
+		int navStartPage = currentPage-(currentPage%rowPerPage)+1;	// 페이지별 시작 네이게이션 인덱스
+		int navEndPage = navStartPage+9;	// 페이지별 마지막 네이게이션 인덱스
+		// 네비게이션 마지막 페이지가 10의 자리의 있으면 현재 위치 유지
+		if(currentPage%navRowPerPage == 0) {
+			navStartPage = navStartPage-navRowPerPage;
+			navEndPage = navEndPage-navRowPerPage;
+		}
+		// 모델에 데이터 담아서 보내기
+		model.addAttribute("navStartPage", navStartPage);
 		model.addAttribute("currentPage", currentPage);	// 페이징을 하기위해 뷰에 현재페이지 데이터도 보냄
 		model.addAttribute("lastPage", lastPage);		// 공지사항 마지막 페이지
 		model.addAttribute("noticeList", noticeList);	// 서비스의 결과값(공지리스트)을 model에 담아서 뷰로 보내기

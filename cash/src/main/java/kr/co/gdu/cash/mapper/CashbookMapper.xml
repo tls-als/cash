@@ -123,7 +123,7 @@
  	</select>
  	<!-- 합계 가계리스트 조회 -->
  	<select id="selectSumCashbookPriceByInOut" parameterType="java.util.Map" resultType="int">
- 		SELECT NVL(SUM(cashbook_price), 0)
+ 		SELECT IFNULL(SUM(cashbook_price), 0)
 		FROM cashbook
 		WHERE cashbook_kind = #{cashbookKind}	<!--  map.get("cashbookKind") -->
 		AND YEAR(cashbook_date)= #{currentYear}
