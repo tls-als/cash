@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="kr.co.gdu.cash.mapper.CashbookMapper">
+ 	<!-- 가계부 전체 행의 개수 -->
+ 	<select id="pagingCashbookTotalCount" resultType="int">
+ 		SELECT COUNT(cashbook_id)
+		FROM cashbook
+ 	</select>
+ 	<!-- 가계부 전체 내용을 조회 -->
+ 	<select id="selectCashbookListAll" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT cashbook_id cashbookId,
+ 			cashbook_kind cashbookKind,
+ 			category_name categoryName,
+ 			cashbook_price cashbookPrice,
+ 			cashbook_content cashbookContent,
+ 			cashbook_date cashbookDate,
+ 			create_date createDate,
+ 			update_date updateDate
+ 		FROM cashbook
+ 		ORDER BY cashbook_date DESC, cashbook_id DESC
+ 	</select>
+ 	<!-- 가계부 전체 내용을 조회 -->
+ 	<select id="selectCashbookListByPage" parameterType="java.util.Map" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT cashbook_id cashbookId,
+ 			cashbook_kind cashbookKind,
+ 			category_name categoryName,
+ 			cashbook_price cashbookPrice,
+ 			cashbook_content cashbookContent,
+ 			cashbook_date cashbookDate,
+ 			create_date createDate,
+ 			update_date updateDate
+ 		FROM cashbook
+ 		ORDER BY cashbook_date DESC, cashbook_id DESC
+ 		LIMIT #{beginRow},#{rowPerPage}
+ 	</select>
+ 	<!-- 가계부 삭제 쿼리 -->
+ 	<delete id="deleteCashbook" parameterType="int">
+ 		DELETE
+ 		FROM cashbook
+ 		WHERE cashbook_id = #{cashbookID}
+ 	</delete>
+ 	<!-- 가계부 수정 쿼리 -->
+ 	<update id="updateCashbook" parameterType="kr.co.gdu.cash.vo.Cashbook">
+ 		UPDATE cashbook
+ 		SET cashbook_kind = #{cashbookKind},
+ 			category_name = #{categoryName},
+ 			cashbook_price = #{cashbookPrice},
+ 			cashbook_content = #{cashbookContent},
+ 			cashbook_date = #{cashbookDate},
+ 			update_date = NOW()
+ 		WHERE cashbook_id = #{cashbookId}
+ 	</update>
+ 	<!-- 수정폼에서 출력하는 가계 상세내용 조회 쿼리 -->
+ 	<select id="selectDetailCashbookList" parameterType="int" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT
+ 			cashbook_id cashbookId,
+ 			cashbook_kind cashbookKind,
+ 			category_name categoryName,
+ 			cashbook_price cashbookPrice,
+ 			cashbook_content cashbookContent,
+ 			cashbook_date cashbookDate,
+ 			create_date createDate,
+ 			update_date updateDate
+ 		FROM cashbook
+ 		where cashbook_id = #{cashbookId}
+ 	</select>
+ 	<!-- 가계 내용을 입력하기 위한 쿼리 -->
+ 	<insert id="insertCashbook" parameterType="kr.co.gdu.cash.vo.Cashbook">
+ 		INSERT INTO cashbook(
+ 			cashbook_kind,
+ 			category_name,
+ 			cashbook_price,
+ 			cashbook_content,
+ 			cashbook_date,
+ 			create_date,
+ 			update_date
+ 		) VALUES (
+ 			#{cashbookKind},
+ 			#{categoryName},
+ 			#{cashbookPrice},
+ 			#{cashbookContent},
+ 			#{cashbookDate},
+ 			NOW(),
+ 			NOW()
+ 		)
+ 	</insert>
+ 	<!-- 일자별로 가계리스트 조회 -->
+ 	<select id="selectCashbookListByDay" parameterType="java.util.Map" resultType="kr.co.gdu.cash.vo.Cashbook">
+ 		SELECT cashbook_id cashbookId, 
+ 				cashbook_kind cashbookKind, 
+ 				category_name categoryName, 
+ 				cashbook_price cashbookPrice, 
+ 				cashbook_content cashbookContent
+		FROM cashbook
+		WHERE YEAR(cashbook_date)=#{currentYear}
+		AND MONTH(cashbook_date)=#{currentMonth}
+		AND DAY(cashbook_date)=#{currentDay}
+ 	</select>
+	<!-- 월별로 가계리스트 조회 -->
+ 	<select id="selectCashListByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+	 	SELECT cashbook_kind cashbookKind, 
+	 			sum(cashbook_price) cashbookPrice, 
+	 			DAY(cashbook_date) dday
+		FROM cashbook
+		WHERE YEAR(cashbook_date)=#{currentYear}
+		AND MONTH(cashbook_date)=#{currentMonth}
+		GROUP BY DAY(cashbook_date), cashbook_kind
+ 	</select>
+ 	<!-- 수입/지출 가계리스트 조회 -->
+ 	<select id="selectCashInOutList" resultType="java.util.Map">
+ 		SELECT 
+			DATE_FORMAT(cashbook_date, '%Y.%m') AS "날짜"
+			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)) AS "수입"
+			,SUM((case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "지출"
+			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)
+				-(case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "합계"
+		FROM cashbook
+		GROUP BY DATE_FORMAT(cashbook_date, '%Y.%m')
+		ORDER BY DATE_FORMAT(cashbook_date, '%Y.%m') DESC
+		LIMIT 3
+ 	</select>
+ 	<!-- 합계 가계리스트 조회 -->
+ 	<select id="selectSumCashbookPriceByInOut" parameterType="java.util.Map" resultType="int">
+ 		SELECT NVL(SUM(cashbook_price), 0)
+		FROM cashbook
+		WHERE cashbook_kind = #{cashbookKind}	<!--  map.get("cashbookKind") -->
+		AND YEAR(cashbook_date)= #{currentYear}
+		AND MONTH(cashbook_date)= #{currentMonth}
+ 	</select>
+ 
+ </mapper>

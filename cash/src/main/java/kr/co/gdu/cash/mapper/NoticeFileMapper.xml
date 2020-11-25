@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.cash.mapper.NoticeFileMapper">
+	<!-- 공지사항 파일을 추가 -->
+	<insert id="insertNoticeFile" parameterType="kr.co.gdu.cash.vo.Noticefile">
+		INSERT INTO noticefile (
+			notice_id,
+			noticefile_name,
+			noticefile_type,
+			noticefile_size
+		) VALUES (
+			#{noticeId},
+			#{noticefileName},
+			#{noticefileType},
+			#{noticefileSize}
+		)
+	</insert>
+	<!-- 파일 삭제를 위한 업데이트 -->
+	<update id="modifyFile" parameterType="int">
+		UPDATE noticefile
+		SET noticefile_name = ''
+		WHERE noticefile_id = #{noticefileId}
+	</update>
+	<!-- 하나의 삭제를 위한 파일 이름 조회 -->
+	<select id="selectfileName" parameterType="int" resultType="String">
+		SELECT noticefile_name
+		FROM noticefile
+		WHERE noticefile_id = #{noticefileId}
+	</select>
+	<!-- 모든 파일 삭제를 위한 파일 이름 조회 -->
+	<select id="selectfileNameAll" parameterType="int" resultType="String">
+		SELECT noticefile_name
+		FROM noticefile
+		WHERE notice_id = #{noticeId}
+	</select>
+	<!-- 공지사항 삭제시 파일 모두 삭제 -->
+	<delete id="deleteFile" parameterType="int">
+		DELETE
+		FROM noticefile
+		WHERE notice_id = #{noticeId}
+	</delete>
+</mapper>

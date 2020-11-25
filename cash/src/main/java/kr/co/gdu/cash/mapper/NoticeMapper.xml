@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.cash.mapper.NoticeMapper">
+	<!-- 
+		매개변수는 parameterType에(단 하나만, 여러개면 Map이용), 리턴타입은 resultType에(제너릭타입) 
+		rs.get & setter의 역할
+	-->
+	<!-- 공지사항 리스트를 보이는 쿼리() -->
+	<select id="selectLatesNoticeList" resultType="kr.co.gdu.cash.vo.Notice">
+	<!-- 마이바티스에서는 쿼리의 컴럼과 vo의 setter,getter 이름을 같게 한다 -->
+		SELECT 
+			notice_id as noticeId, 
+			notice_title as noticeTitle, 
+			notice_date as noticeDate
+		FROM notice
+		ORDER BY notice_date DESC
+		LIMIT 0,5
+	</select>
+	<!-- 
+		공지사항 리스트를 페이지별로 보이는 쿼리 
+		1. parameterType: 매개변수의 타입은 Map(map.put된 값 받음)
+		2. resultType: 반환타입은 Notice vo타입
+	-->
+	<select id="selectNoticeListByPage" parameterType="java.util.Map" resultType="kr.co.gdu.cash.vo.Notice">
+		SELECT
+			notice_id noticeId,	<!-- resultType의 변수명과 맞춰야 vo에 setter를 할수 있다. -->
+			notice_title noticeTitle,
+			notice_date noticeDate
+		FROM notice
+		ORDER BY notice_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 전체 공지리스트 수 -->
+	<select id="selectNoticeListCount" resultType="int">
+		SELECT COUNT(*) FROM notice
+	</select>
+	
+	<!-- 공지사항 추가(<insert></insert>) -->
+	<insert id="insertNoticeList" parameterType="kr.co.gdu.cash.vo.Notice">
+	<selectKey resultType="int" keyProperty="noticeId" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+		INSERT
+		INTO notice(notice_title,
+					notice_content,
+					notice_date) 
+		VALUES(#{noticeTitle},#{noticeContent},NOW())
+	</insert>
+	
+	<resultMap type="kr.co.gdu.cash.vo.Notice" id="ResultSelectDetailNoticeList">
+		<result property="noticeId" column="notice_id"/>
+		<result property="noticeTitle" column="notice_title"/>
+		<result property="noticeContent" column="notice_content"/>
+		<result property="noticeDate" column="notice_date"/>
+		<collection property="fileList" ofType="kr.co.gdu.cash.vo.Noticefile">
+			<result property="noticefileId" column="noticefile_id"/>
+			<result property="noticefileName" column="noticefile_name"/>
+			<result property="noticefileType" column="noticefile_type"/>
+			<result property="noticefileSize" column="noticefile_size"/>
+		</collection>
+	</resultMap>
+	<!-- 공지사항 상세보기 쿼리 -->
+	<select id="selectDetailNoticeList" parameterType="int" resultMap="ResultSelectDetailNoticeList">
+		SELECT 
+			c.notice_id,
+			c.notice_title,
+			c.notice_content,
+			c.notice_date,
+			nf.noticefile_id,
+			nf.noticefile_name,
+			nf.noticefile_type,
+			nf.noticefile_size
+		FROM notice c
+		LEFT JOIN noticefile nf
+		ON c.notice_id = nf.notice_id
+		WHERE c.notice_id = #{noticeId}
+		LIMIT 0,10;
+	</select>
+	
+	<!-- 공지사항 삭제 쿼리(result 없음) -->
+	<delete id="deleteNoticeList" parameterType="int">
+		DELETE 
+		FROM notice 
+		WHERE notice_id = #{noticeId}
+	</delete>
+	
+	<!-- 공지사항 수정을 위한 조회 쿼리 -->
+	<resultMap type="kr.co.gdu.cash.vo.Notice" id="selectModifyNoticeListResult">
+		<result property="noticeId" column="notice_id"/>
+		<result property="noticeTitle" column="notice_title"/>
+		<result property="noticeContent" column="notice_content"/>
+		<result property="noticeDate" column="notice_date"/>
+		<collection property="fileList" ofType="kr.co.gdu.cash.vo.Noticefile">
+			<result property="noticefileId" column="noticefile_id"/>
+			<result property="noticefileName" column="noticefile_name"/>
+		</collection>
+	</resultMap>
+	<select id="selectModifyNoticeList" parameterType="int" resultMap="selectModifyNoticeListResult">
+		SELECT 
+			c.notice_id,
+			c.notice_title,
+			c.notice_content,
+			c.notice_date,
+			nf.noticefile_id,
+			nf.noticefile_name
+		FROM notice c
+		LEFT JOIN noticefile nf
+		ON c.notice_id = nf.notice_id
+		WHERE c.notice_id = #{noticeId}
+	</select>
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNoticeList" parameterType="kr.co.gdu.cash.vo.NoticeForm">
+		UPDATE notice
+		SET notice_title = #{noticeTitle},
+			notice_Content = #{noticeContent}
+		WHERE notice_id = #{noticeId}
+	</update>
+	
+	
+	
+</mapper>
