@@ -24,7 +24,7 @@ import kr.co.gdu.cash.vo.Noticefile;
 @Transactional
 public class NoticeService {
 	// PATH = "C:\\sts_workspace\\maven.1604968242477\\cash\\src\\main\\webapp\\upload\\"
-	private final String PATH = "D:\\user2_stswork\\maven.1606286725258\\cash\\src\\main\\webapp\\upload\\";
+	private final String PATH = "C:\\sts_workspace\\maven.1606311163765\\cash\\src\\main\\webapp\\upload\\";
 	
 	@Autowired private NoticeMapper noticeMapper;	// 스프링이 갖고 있는 객체 중에 NoticeMapper의 객체를 찾아서 noticeMapper에 주입
 	@Autowired private CashbookMapper cashbookMapper;

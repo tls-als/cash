@@ -43,32 +43,75 @@
 		<!-- 페이징 -->
 		<ul class="pagination justify-content-center">
 			<c:choose>
-				<c:when test="${currentPage > 1}">
+				<c:when test="${lastPage > 1 && currentPage == 1}">
 					<li class="page-item disabled"><a class="page-link">이전</a></li>
+					<c:if test="${navEndPage > lastPage}">
+						<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class="page-item active"><a class="page-link" href="">${i}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:if>
+					<c:if test="${navEndPage < lastPage}">
+						<c:forEach var="i" begin="${navStartPage}" end="${navEndPage}">
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class="page-item active"><a class="page-link" href="">${i}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:if>
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
+				</c:when>
+				<c:when test="${lastPage < navEndPage && currentPage != lastPage}">
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
-						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a>
-						</li>
+						<c:choose>
+							<c:when test="${currentPage == i}">
+								<li class="page-item active"><a class="page-link" href="">${i}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a></li>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
 				</c:when>
-				<c:when test="${currentPage > 1 && currentPage != lastPage}">
+				<c:when test="${lastPage > navEndPage && currentPage != lastPage}">
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${navEndPage}">
-						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a>
-						</li>
+						<c:choose>
+							<c:when test="${currentPage == i}">
+								<li class="page-item active"><a class="page-link" href="">${i}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a></li>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
 				</c:when>
-				<c:when test="${currentPage > 1 && currentPage == lastPage}">
+				<c:when test="${lastPage > 1 && currentPage == lastPage}">
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
-						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a>
-						</li>
+						<c:choose>
+							<c:when test="${currentPage == i}">
+								<li class="page-item active"><a class="page-link" href="">${i}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${i}">${i}</a></li>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
-					<li class="${pageContext.request.contextPath}page-item disabled"><a class="page-link">다음</a></li>
+					<li class="page-item disabled"><a class="page-link">다음</a></li>
 				</c:when>	
 			</c:choose>
 		</ul>
