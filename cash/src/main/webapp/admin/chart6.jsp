@@ -33,10 +33,14 @@
 </div>
 </body>
 <script>
+	// 현재 연도 가져오기
+	let today = new Date();
+	let currentYear = today.getFullYear();
+	// 차트
 	var myChart;
 	$('#chartSearch').click(function() {
 		$.ajax({
-			url:'/admin/chart6',
+			url:'${pageContext.request.contextPath}/admin/chart6',
 			type:'get',
 			data:{year:$('#year').val()},
 			success:function(data) {
@@ -70,6 +74,42 @@
 				});	
 			}
 		});
+	});
+	// 기본으로 출력되는 차트
+	$.ajax({
+		url:'${pageContext.request.contextPath}/admin/chart6',
+		type:'get',
+		data:{year: currentYear},
+		success:function(data) {
+			if(myChart) {
+				myChart.destroy();
+			}					
+			var ctx = $('#chart6');
+			myChart = new Chart(ctx, {
+				type: 'horizontalBar',
+			    data: {
+			    	 labels: ['최대 수입','최소 수입'],
+			    	 datasets: [{ 
+			    		 label: $('#year').val()+ '년 최대/최소 수입 통계',
+			             data: [data.maxIncome, data.minIncome],
+			    		 backgroundColor: ['rgba(125,12,100,0.3)'
+				    		 				,'rgba(85,112,185,0.3)'],
+			    		 borderColor: ['rgba(125,90,15,0.3)',
+			    			 			'rgba(250,10,45,0.3)'],
+    			 			data:[data.maxIncome, data.minIncome],
+				      		borderWidth: 3
+					 }]
+			    },
+			    options: {
+			    	title: {	// 그래프 타이틀 설정
+			            display: true,
+			            text: currentYear + '년 최대/최소 수입',
+			            fontStyle: 'bold',
+			            fontSize: 18
+			        },
+				}
+			});	
+		}
 	});
 </script>
 </html>

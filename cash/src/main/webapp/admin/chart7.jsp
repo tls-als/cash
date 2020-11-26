@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +32,53 @@
 </div>
 </body>
 <script>
-var myChart;
-$('#chartSearch').click(function() {
+	//현재 연도 가져오기
+	let today = new Date();
+	let currentYear = today.getFullYear();
+	// 차트
+	var myChart;
+	$('#chartSearch').click(function() {
+		$.ajax({
+			url:'${pageContext.request.contextPath}/admin/chart7',
+			type:'get',
+			data:{year:$('#year').val()},
+			success:function(data) {
+				if(myChart) {
+					myChart.destroy();
+				}					
+				var ctx = $('#chart7');
+				myChart = new Chart(ctx, {
+					type: 'horizontalBar',
+				    data: {
+				    	 labels: ['최대 지출','최소 지출'],
+				    	 datasets: [{ 
+				    		 label: $('#year').val()+ '년 최대/최소 지출 통계',
+				             data: [data.maxIncome, data.minIncome],
+				    		 backgroundColor: ['rgba(25,12,100,0.3)'
+					    		 				,'rgba(185,112,185,0.3)'],
+				    		 borderColor: ['rgba(15,90,15,0.3)',
+				    			 			'rgba(150,10,45,0.3)'],
+	    			 			data:[data.maxIncome, data.minIncome],
+					      		borderWidth: 3
+						 }]
+				    },
+				    options: {
+				    	title: {	// 그래프 타이틀 설정
+				            display: true,
+				            text: $('#year').val() + '년 최대/최소 지출',
+				            fontStyle: 'bold',
+				            fontSize: 18
+				        },
+					}
+				});	
+			}
+		});
+	});
+	// 기본으로 출력되는 차트
 	$.ajax({
-		url:'/admin/chart7',
+		url:'${pageContext.request.contextPath}/admin/chart7',
 		type:'get',
-		data:{year:$('#year').val()},
+		data:{year: currentYear},
 		success:function(data) {
 			if(myChart) {
 				myChart.destroy();
@@ -55,14 +95,14 @@ $('#chartSearch').click(function() {
 				    		 				,'rgba(185,112,185,0.3)'],
 			    		 borderColor: ['rgba(15,90,15,0.3)',
 			    			 			'rgba(150,10,45,0.3)'],
-    			 			data:[data.maxIncome, data.minIncome],
+				 			data:[data.maxIncome, data.minIncome],
 				      		borderWidth: 3
 					 }]
 			    },
 			    options: {
 			    	title: {	// 그래프 타이틀 설정
 			            display: true,
-			            text: $('#year').val() + '년 최대/최소 지출',
+			            text: currentYear + '년 최대/최소 지출',
 			            fontStyle: 'bold',
 			            fontSize: 18
 			        },
@@ -70,6 +110,5 @@ $('#chartSearch').click(function() {
 			});	
 		}
 	});
-});
 </script>
 </html>
