@@ -24,7 +24,7 @@ import kr.co.gdu.cash.vo.Noticefile;
 @Transactional
 public class NoticeService {
 	// PATH = "C:\\sts_workspace\\maven.1604968242477\\cash\\src\\main\\webapp\\upload\\"
-	private final String PATH = "C:\\sts_workspace\\maven.1606311163765\\cash\\src\\main\\webapp\\upload\\";
+	private final String PATH = "D:\\user2_stswork\\maven.1606436951328\\cash\\src\\main\\webapp\\upload\\";
 	
 	@Autowired private NoticeMapper noticeMapper;	// 스프링이 갖고 있는 객체 중에 NoticeMapper의 객체를 찾아서 noticeMapper에 주입
 	@Autowired private CashbookMapper cashbookMapper;
@@ -33,8 +33,6 @@ public class NoticeService {
 	
 	// 파일 삭제를 위한 메서드
 	public void modifyfile(int noticefileId) {
-		// 테이블에서 파일이름 지우기
-		noticeFileMapper.modifyFile(noticefileId);
 		// 폴더에서 파일 지우기
 		List<String> fileNames = noticeFileMapper.selectfileName(noticefileId);
 		for(String f : fileNames) {
@@ -42,7 +40,9 @@ public class NoticeService {
 			if(file.exists()) {
 				file.delete();
 			}
-		}		
+		}
+		// 테이블에서 파일 지우기
+		noticeFileMapper.deleteFileOne(noticefileId);
 	}
 	// 공지 수정 메서드
 	public void setUpdateNoticeList(NoticeForm noticeForm) {	
