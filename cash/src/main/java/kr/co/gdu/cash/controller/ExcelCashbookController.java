@@ -24,16 +24,16 @@ import kr.co.gdu.cash.vo.Cashbook;
 @Controller
 @Scope("singleton")	// default값(원래 생략된 것). 처음 실행할 때 한번만 객체를 만들고 그것만 계속 씀
 public class ExcelCashbookController {
-	@GetMapping(path = "/admin/cashbookListExcel", produces = "application/vnd.ms-excel")
+	@GetMapping(path = "/admin/cashbookListExcel", produces = "application/vnd.ms-excel")	// path: 호출 경로, produces: xls 타입 지정
 	public String cashbookListExcel() {
-		return "cashbookExcelView";	// 엑셀 파일 이름
+		return "cashbookExcelView";	// 컴포넌트 이름(뷰이름 X)
 	}
 }
 
 // 내부 클래스(public은 첫번째 클래스에만) => 자바파일안엔 하나지만 컴파일될 때 따로.
-@Component("cashbookExcelView")	// 컴포넌트는 그냥 객체만 만들어줌. 객체 이름은 안 적으면 클래스 이름과 동일하게 만들고 앞에 문자만 소문자로 바뀜
+@Component("cashbookExcelView")	// 컴포넌트는 그냥 객체만 만들어줌. 객체 이름은 안 적으면 클래스 이름과 동일하게 만들고 앞에 문자만 소문자로 바뀜. 컴포넌트를 정의해줘야 컨트롤러에서 찾음
 @Scope("prototype")	// 컴포넌트타입의 스코프의 디폴트값은 "singleton", 새로 갱신될 때마다 객체를 새로 만들어 줌(리스트의 내용이 바뀔 수 있기 때문)
-class CashbookExcelView extends AbstractXlsView{	// AbstractXlsView를 상속받아 엑셀뷰를 만듦
+class CashbookExcelView extends AbstractXlsView{	// AbstractXlsView를 상속받아 엑셀뷰를 만듦(Xls 뷰 생성)
 	@Autowired CashbookService cashbookService;
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,	// Workbook(파일을 받음)을 이용하기 위해 lib 추가해야 됨

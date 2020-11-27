@@ -83,15 +83,17 @@
 				<th>내용</th>
 				<th>삭제하기</th>
 			</tr>
-			<c:forEach var="c" items="${comment}">
-				<tr>
-					<td>${c.commentId}</td>
-					<td>${c.commentContent}</td>
-					<td>
-						<a href="${pageContext.request.contextPath}/admin/deleteComment?noticeId=${noticeId}&commentId=${c.commentId}" style="color: red">댓글삭제</a>
-					</td>
-				</tr>
-			</c:forEach>
+			<tr>
+				<c:forEach var="c" items="${comment}">
+					<tr>
+						<td>${c.commentId}</td>
+						<td>${c.commentContent}</td>
+						<td>
+							<a href="${pageContext.request.contextPath}/admin/deleteComment?noticeId=${noticeId}&commentId=${c.commentId}" style="color: red">댓글삭제</a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tr>
 		</table>
 		<br>
 		<div align="right">

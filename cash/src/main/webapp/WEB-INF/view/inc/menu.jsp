@@ -21,8 +21,6 @@
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart5.jsp">월별 평균 지출</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart6.jsp">연간 최대/최소 수입</a>
 		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart7.jsp">연간 최대/최소 지출</a>
-		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart8.jsp">chart8</a>
-		        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart9.jsp">chart9</a>
 		      </div>
 	    </li>
 	<li class="nav-item">

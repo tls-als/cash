@@ -40,10 +40,12 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<!-- 페이징 -->
+		<!-- 페이징 네비게이션 작성-->
 		<ul class="pagination justify-content-center">
 			<c:choose>
 				<c:when test="${lastPage > 1 && currentPage == 1}">
+					<!-- 현재 페이지가 1 / 1페이지 이상일 때 네비게이션 출력 -->
+					<li class="page-item disabled"><a class="page-link">처음으로</a></li>
 					<li class="page-item disabled"><a class="page-link">이전</a></li>
 					<c:if test="${navEndPage > lastPage}">
 						<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
@@ -57,6 +59,7 @@
 							</c:choose>
 						</c:forEach>
 					</c:if>
+					<!-- 네비게이션 엔드페이지보다 마지막페이지가 크면 네비게이션 인덱스 10까지 출력 -->
 					<c:if test="${navEndPage < lastPage}">
 						<c:forEach var="i" begin="${navStartPage}" end="${navEndPage}">
 							<c:choose>
@@ -70,8 +73,11 @@
 						</c:forEach>
 					</c:if>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${lastPage}">마지막으로</a></li>
 				</c:when>
 				<c:when test="${lastPage < navEndPage && currentPage != lastPage}">
+					<!-- 네비게이션 엔드페이지보다 마지막페이지가 작을때 네이게이션 인덱스 마지막페이지까지, 현재 페이지가 마지막 페이지가 아닐 때 -->
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/1">처음으로</a></li>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
 						<c:choose>
@@ -84,8 +90,11 @@
 						</c:choose>
 					</c:forEach>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${lastPage}">마지막으로</a></li>
 				</c:when>
 				<c:when test="${lastPage > navEndPage && currentPage != lastPage}">
+					<!-- 마지막페이지가 네비게이션 엔드페이지보다 클때 네비게이션 10까지 출력, 현재 페이지가 라스트페이지가 아닐때 -->
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/1">처음으로</a></li>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${navEndPage}">
 						<c:choose>
@@ -98,8 +107,11 @@
 						</c:choose>
 					</c:forEach>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage+1}">다음</a></li>
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${lastPage}">마지막으로</a></li>
 				</c:when>
 				<c:when test="${lastPage > 1 && currentPage == lastPage}">
+					<!-- 마지막페이지가 1페이지보다 크고 현재페이지가 마지막 페이지일때 -->
+					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/1">처음으로</a></li>
 					<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/noticeList/${currentPage-1}">이전</a></li>
 					<c:forEach var="i" begin="${navStartPage}" end="${lastPage}">
 						<c:choose>
@@ -112,10 +124,10 @@
 						</c:choose>
 					</c:forEach>
 					<li class="page-item disabled"><a class="page-link">다음</a></li>
+					<li class="page-item disabled"><a class="page-link">마지막으로</a></li>
 				</c:when>	
 			</c:choose>
 		</ul>
 	</div>
-</div>
 </body>
 </html>
