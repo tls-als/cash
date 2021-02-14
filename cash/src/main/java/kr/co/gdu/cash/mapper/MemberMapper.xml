@@ -10,14 +10,15 @@
 			pw
 		) VALUES(
 			#{id},
-			#{pw}
+			PASSWORD(#{pw})
 		)
 	</insert>
-	<select id="selectMemberById" parameterType="String" resultType="kr.co.gdu.cash.vo.Member">
+	<select id="selectMemberById" parameterType="kr.co.gdu.cash.vo.Member" resultType="kr.co.gdu.cash.vo.Member">
 		SELECT
-			id,
-			pw
+			id
 		FROM member
-		WHERE id=#{id}	<!-- 값이 하나밖에 없기에 아무 값이나 넣어도 됨 #{goodee} -->
+		WHERE 
+			id=#{id} 
+			AND pw=PASSWORD(#{pw})	<!-- 값이 하나밖에 없기에 아무 값이나 넣어도 됨 #{goodee} -->
 	</select>
 </mapper>

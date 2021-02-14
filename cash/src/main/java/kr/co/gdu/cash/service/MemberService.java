@@ -17,8 +17,8 @@ public class MemberService {
 	}
 	
 	public Member getMemberById(Member paramMember) {
-		Member member = memberMapper.selectMemberById(paramMember.getId());	// 회원 조회 데이터를 vo에 담기		
-		if(member != null && member.getPw().equals(paramMember.getPw()) == true) {
+		Member member = memberMapper.selectMemberById(paramMember);	// 회원 조회 데이터를 vo에 담기
+		if(member != null) {
 			return member;
 		}
 		return null;

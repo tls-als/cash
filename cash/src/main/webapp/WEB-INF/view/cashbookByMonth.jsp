@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<title>index</title>
+<title>cashbookByMonth</title>
 <style type="text/css">
 	.sunday{color : #FF0000;}
 </style>

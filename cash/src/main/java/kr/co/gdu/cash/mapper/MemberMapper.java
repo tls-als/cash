@@ -8,5 +8,5 @@ import kr.co.gdu.cash.vo.Member;
 @Mapper
 public interface MemberMapper {
 	int insertMember(Member member);	// 멤버 추가 메서드
-	Member selectMemberById(String id);	// 매개변수(id)를 가지고 회원정보 조회하는 메서드
+	Member selectMemberById(Member member);	// 매개변수(id)를 가지고 회원정보 조회하는 메서드
 }
