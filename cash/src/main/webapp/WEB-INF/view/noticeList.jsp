@@ -14,7 +14,9 @@
 		<h1>공지사항 LIST</h1>
 	</div>
 		<!-- 공지 추가하기 -->
-		<div><a class="btn btn-outline-info" href="${pageContext.request.contextPath}/admin/addNotice">공지 추가하기</a></div>
+		<c:if test="${loginId eq 'goodee'}">
+			<div><a class="btn btn-outline-info" href="${pageContext.request.contextPath}/admin/addNotice">공지 추가하기</a></div>		
+		</c:if>
 		<!-- 공지리스트 -->
 		<table class="table table-bordered table-striped">
 			<thead>
@@ -22,9 +24,16 @@
 					<th>noticeId</th>
 					<th>noticeTitle</th>
 					<th>noticeDate</th>
-					<th>수정</th>
-					<th>삭제</th>
-					<th>상세보기</th>
+					<c:choose>
+						<c:when test="${loginId eq 'goodee'}">
+							<th>수정</th>
+							<th>삭제</th>
+							<th>상세보기</th>					
+						</c:when>
+						<c:otherwise>
+							<th>상세보기</th>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,9 +42,16 @@
 					<td>${c.noticeId}</td>
 					<td>${c.noticeTitle}</td>
 					<td>${c.noticeDate}</td>
-					<th><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/modifyNotice/${c.noticeId}">수정</a></th>
-					<th><a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/admin/removeNotice/${c.noticeId}">삭제</a></th>
-					<th><a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/admin/noticeOne/${c.noticeId}">상세보기</a></th>
+					<c:choose>
+						<c:when test="${loginId eq 'goodee'}">
+							<th><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/modifyNotice/${c.noticeId}">수정</a></th>
+							<th><a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/admin/removeNotice/${c.noticeId}">삭제</a></th>
+							<th><a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/admin/noticeOne/${c.noticeId}">상세보기</a></th>				
+						</c:when>
+						<c:otherwise>
+							<th><a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/admin/noticeOne/${c.noticeId}">상세보기</a></th>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				</c:forEach>
 			</tbody>
