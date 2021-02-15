@@ -4,9 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="kr.co.gdu.cash.mapper.CashbookMapper">
  	<!-- 가계부 전체 행의 개수 -->
- 	<select id="pagingCashbookTotalCount" resultType="int">
+ 	<select id="pagingCashbookTotalCount" parameterType="String" resultType="int">
  		SELECT COUNT(cashbook_id)
 		FROM cashbook
+		WHERE id = #{loginId}
  	</select>
  	<!-- 가계부 전체 내용을 조회 -->
  	<select id="selectCashbookListAll" resultType="kr.co.gdu.cash.vo.Cashbook">
@@ -32,6 +33,7 @@
  			create_date createDate,
  			update_date updateDate
  		FROM cashbook
+ 		WHERE id = #{loginId}
  		ORDER BY cashbook_date DESC, cashbook_id DESC
  		LIMIT #{beginRow},#{rowPerPage}
  	</select>
@@ -94,7 +96,9 @@
  				cashbook_price cashbookPrice, 
  				cashbook_content cashbookContent
 		FROM cashbook
-		WHERE YEAR(cashbook_date)=#{currentYear}
+		WHERE 
+			YEAR(cashbook_date)=#{currentYear} AND
+			id = #{loginId}
 		AND MONTH(cashbook_date)=#{currentMonth}
 		AND DAY(cashbook_date)=#{currentDay}
  	</select>
@@ -104,12 +108,14 @@
 	 			sum(cashbook_price) cashbookPrice, 
 	 			DAY(cashbook_date) dday
 		FROM cashbook
-		WHERE YEAR(cashbook_date)=#{currentYear}
-		AND MONTH(cashbook_date)=#{currentMonth}
+		WHERE 
+			YEAR(cashbook_date)=#{currentYear} 
+			AND MONTH(cashbook_date)=#{currentMonth}
+			AND id = #{loginId}
 		GROUP BY DAY(cashbook_date), cashbook_kind
  	</select>
  	<!-- 수입/지출 가계리스트 조회 -->
- 	<select id="selectCashInOutList" resultType="java.util.Map">
+ 	<select id="selectCashInOutList" parameterType="String" resultType="java.util.Map">
  		SELECT 
 			DATE_FORMAT(cashbook_date, '%Y.%m') AS "날짜"
 			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)) AS "수입"
@@ -117,6 +123,7 @@
 			,SUM((case when cashbook_kind = '수입' then cashbook_price ELSE 0 END)
 				-(case when cashbook_kind = '지출' then cashbook_price ELSE 0 END)) AS "합계"
 		FROM cashbook
+		WHERE id = #{loginId}
 		GROUP BY DATE_FORMAT(cashbook_date, '%Y.%m')
 		ORDER BY DATE_FORMAT(cashbook_date, '%Y.%m') DESC
 		LIMIT 3
@@ -125,7 +132,9 @@
  	<select id="selectSumCashbookPriceByInOut" parameterType="java.util.Map" resultType="int">
  		SELECT IFNULL(SUM(cashbook_price), 0)
 		FROM cashbook
-		WHERE cashbook_kind = #{cashbookKind}	<!--  map.get("cashbookKind") -->
+		WHERE 
+			cashbook_kind = #{cashbookKind}	<!--  map.get("cashbookKind") -->
+			AND id = #{loginId}
 		AND YEAR(cashbook_date)= #{currentYear}
 		AND MONTH(cashbook_date)= #{currentMonth}
  	</select>

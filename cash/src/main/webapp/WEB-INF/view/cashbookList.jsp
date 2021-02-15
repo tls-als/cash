@@ -32,6 +32,11 @@
 			</tr>
 		</thead>
 		<tbody>
+			<c:if test="${lastPage == 0}">
+				<tr>
+					<td colspan="8">조회된 내용이 없습니다.</td>
+				</tr>
+			</c:if>
 			<c:forEach var="c" items="${list}">
 				<tr>
 					<td>${c.cashbookId}</td>
@@ -48,6 +53,14 @@
 	</table>
 	<!-- 페이징 네이게이션 -->
 	<ul class="pagination justify-content-center">
+		<!-- 조회되는 리스트가 없을 때 -->
+		<c:if test="${lastPage == 0}">
+			<li class="page-item disabled"><a class="page-link" href="">처음으로</a></li>	
+			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>	
+			<li class="page-item active"><a class="page-link" href="">1</a></li>
+			<li class="page-item disabled"><a class="page-link" href="">다음</a></li>
+			<li class="page-item disabled"><a class="page-link" href="">마지막으로</a></li>
+		</c:if>
 		<!-- 현재 페이지가 1일 때 -->
 		<c:if test="${currentPage == 1 && lastPage > 1}">
 			<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/admin/cashbookList/1">처음으로</a></li>	
@@ -66,7 +79,7 @@
 			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/cashbookList/${lastPage}">마지막으로</a></li>
 		</c:if>
 		<!-- 라스트페이지가 엔드페이징보다 작을 때 -->
-		<c:if test="${lastPage < navEndPage && currentPage != lastPage}">
+		<c:if test="${lastPage != 0 && lastPage < navEndPage && currentPage != lastPage}">
 			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/cashbookList/1">처음으로</a></li>	 
 			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/cashbookList/${currentPage-1}">이전</a></li>	 
 			<c:forEach var="i" begin="${navStartPage}" step="1" end="${lastPage}">

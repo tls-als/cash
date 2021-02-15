@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +26,9 @@ public class CashbookController {
 	// 가계부 전체 리스트 조회, 행의 전체 카운트
 	@GetMapping("/admin/cashbookList/{currentPage}")
 	public String cashbookList(Model model,
-			@PathVariable(name = "currentPage", required = true) int currentPage) {	// 현재 페이지
+			@PathVariable(name = "currentPage", required = true) int currentPage, HttpSession session) {	// 현재 페이지
 		int rowPerPage = 20;	// 한 페이지에서 보여질 테이블 행의 수
-		int totalCount = cashbookService.getCashbookTotalCount();	// 전체 행의 수
+		int totalCount = cashbookService.getCashbookTotalCount(session);	// 전체 행의 수
 		int lastPage = totalCount/rowPerPage;	// 마지막 페이지
 		if(totalCount%rowPerPage != 0) {	// 나머지가 있다면 마지막 페이지의 +1
 			lastPage += 1;
@@ -43,7 +46,7 @@ public class CashbookController {
 		}
 		
 		//System.out.println(totalCount + ": 행의 전체 수 카운트");
-		List<Cashbook> list = cashbookService.getCashbookListByPage(currentPage, rowPerPage);
+		List<Cashbook> list = cashbookService.getCashbookListByPage(currentPage, rowPerPage, session);
 		model.addAttribute("lastPage", lastPage);	// 마지막 페이지 번호
 		model.addAttribute("list", list);	// 가계부 리스트
 		model.addAttribute("navEndPage", navEndPage);	// 네비게이션: 끝나는 번호
@@ -52,13 +55,13 @@ public class CashbookController {
 	}
 	// 일별 가계부 내용 삭제
 	@GetMapping("/admin/deleteCashbook/{cashbookId}/{currentYear}/{currentMonth}/{currentDay}")
-	public String deleteCashbook(Model model,
+	public String deleteCashbook(Model model, HttpSession session,
 			@PathVariable(name = "cashbookId", required = true) int cashbookId,
 			@PathVariable(name = "currentYear", required = true) int currentYear,
 			@PathVariable(name = "currentMonth", required = true) int currentMonth,
 			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		cashbookService.deleteCashbook(cashbookId);	// 삭제 메서드 실행
-		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay, session);
 		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
 		model.addAttribute("currentYear", currentYear);		// cashbookByDay 페이지 이동을 위한 날짜 담기
 		model.addAttribute("currentMonth", currentMonth);
@@ -81,12 +84,13 @@ public class CashbookController {
 	}
 	// modifyCashbook폼에서 수정하기 버튼클릭시 일자별가계부로 돌아가기(날짜, 해당날짜 리스트 넘김)
 	@PostMapping("/admin/modifyCashbook/{currentYear}/{currentMonth}/{currentDay}")
-	public String setmodifyCashbook(Cashbook cashbook, Model model,	// 업데이트 실행을 위한 vo 커맨드객체, 일자가계부 페이지 이동위한 model
+	// 업데이트 실행을 위한 vo 커맨드객체, 일자가계부 페이지 이동위한 model
+	public String setmodifyCashbook(Cashbook cashbook, Model model, HttpSession session,	
 			@PathVariable(name = "currentYear", required = true) int currentYear,	// 일자가계부 페이지 이동할 때 넘길 날짜&수정폼에 출력을 위한 날짜값
 			@PathVariable(name = "currentMonth", required = true) int currentMonth,
 			@PathVariable(name = "currentDay", required = true) int currentDay) {
 		cashbookService.updateCashbookList(cashbook);	// 업데이트 실행
-		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay);	// 파라메터로 넘어온 값으로 일자별 가계부리스트 조회
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(currentYear, currentMonth, currentDay, session);	// 파라메터로 넘어온 값으로 일자별 가계부리스트 조회
 		model.addAttribute("cashbookList", cashbookList);	// 일자별 가계 리스트 담기
 		model.addAttribute("currentYear", currentYear);		// cashbookByDay 페이지 이동을 위한 날짜 담기
 		model.addAttribute("currentMonth", currentMonth);
@@ -115,7 +119,7 @@ public class CashbookController {
 	}
 	// 일자별 가계부 내용을 출력하는 페이지로 포워딩
 	@GetMapping("/admin/cashbookByDay/{target}/{currentYear}/{currentMonth}/{currentDay}")
-	public String cashbookByDay(Model model,
+	public String cashbookByDay(Model model, HttpSession session,
 								@PathVariable(name = "target") String target,	// cashbookByMonth에서 request로 보낸 파라매터 매개변수. ByMonth에선 target 값이 없기에 기본값 공백
 								@PathVariable(name = "currentYear", required = true) int currentYear,	// required 값은 트루
 								@PathVariable(name = "currentMonth", required = true) int currentMonth,
@@ -133,7 +137,7 @@ public class CashbookController {
 			targetDay.add(Calendar.DATE, 1);	// 캘린더 API가 알아서 더해줌.
 		}
 		// cashbookByMonth로 요청했을시 target 값은 없기에 아래 실행
-		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(targetDay.get(Calendar.YEAR), targetDay.get(Calendar.MONDAY)+1, targetDay.get(Calendar.DATE));
+		List<Cashbook> cashbookList = cashbookService.getCashbookListByDay(targetDay.get(Calendar.YEAR), targetDay.get(Calendar.MONDAY)+1, targetDay.get(Calendar.DATE), session);
 		model.addAttribute("cashbookList", cashbookList);
 		model.addAttribute("currentYear", targetDay.get(Calendar.YEAR)); 
 		model.addAttribute("currentMonth", targetDay.get(Calendar.MONDAY)+1);
@@ -142,7 +146,8 @@ public class CashbookController {
 	}
 	
 	@GetMapping(value="/admin/cashbookByMonth/{target}/{currentYear}/{currentMonth}")	// {"/","/index"}와 동일
-	public String cashbookByMonth(Model model, //index를 요청하면 리턴값은 String으로 리턴. Model은 Map타입
+	 //index를 요청하면 리턴값은 String으로 리턴. Model은 Map타입
+	public String cashbookByMonth(Model model, HttpSession session,
 			@PathVariable(name = "target") String target,
 			@PathVariable(name = "currentYear") int currentYear,	// request.getParameter
 			@PathVariable(name = "currentMonth") int currentMonth) {	// 0~13월까지 넘어올 수 있음. request.getParameter
@@ -185,11 +190,11 @@ public class CashbookController {
 		System.out.println(firstDayOfWeek +"<-1일의 시작 요일");
 		
 		// 지출, 수입 데이터를 호출하는 부분
-		int sumIn = cashbookService.getSumCashbookPriceByInOut("수입", currentYear, currentMonth);
-		int sumOut = cashbookService.getSumCashbookPriceByInOut("지출", currentYear, currentMonth);
+		int sumIn = cashbookService.getSumCashbookPriceByInOut("수입", currentYear, currentMonth, session);
+		int sumOut = cashbookService.getSumCashbookPriceByInOut("지출", currentYear, currentMonth, session);
 		
 		// 해당 연도와 달 조건에 따른 수입,지출 호출하는 부분
-		List<Map<String, Object>> cashList = cashbookService.getCashListByMonth(currentYear, currentMonth);
+		List<Map<String, Object>> cashList = cashbookService.getCashListByMonth(currentYear, currentMonth, session);
 		
 		// 3. 뷰 모델 추가
 		/*

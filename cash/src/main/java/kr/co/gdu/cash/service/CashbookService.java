@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,18 +19,20 @@ import kr.co.gdu.cash.vo.Cashbook;
 public class CashbookService {
 	@Autowired private CashbookMapper cashbookMapper;	// 주입(외부 의존성주입)
 	// 가계부 전체 행의 수 카운트
-	public int getCashbookTotalCount() {
-		return cashbookMapper.pagingCashbookTotalCount();
+	public int getCashbookTotalCount(HttpSession session) {
+		String loginId = session.getAttribute("loginId").toString();
+		return cashbookMapper.pagingCashbookTotalCount(loginId);
 	}
 	// 엑셀파일을 위한 쿼리 조회
 	public List<Cashbook> getCashbookListAll() {
 		return cashbookMapper.selectCashbookListAll();
 	}
 	// 가계부 전체 내용을 조회
-	public List<Cashbook> getCashbookListByPage(int currentPage, int rowPerPage) {
+	public List<Cashbook> getCashbookListByPage(int currentPage, int rowPerPage, HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("beginRow", (currentPage-1)*rowPerPage);
 		map.put("rowPerPage", rowPerPage);
+		map.put("loginId", session.getAttribute("loginId"));
 		return cashbookMapper.selectCashbookListByPage(map);
 	}
 	// 가계부 삭제
@@ -48,27 +53,30 @@ public class CashbookService {
 		return cashbookMapper.insertCashbook(cashbook);
 	}
 	// 일자별 가계부 리스트를 출력하는 서비스
-	public List<Cashbook> getCashbookListByDay(int currentYear, int currentMonth, int currentDay) {
+	public List<Cashbook> getCashbookListByDay(int currentYear, int currentMonth, int currentDay, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentYear", currentYear);
 		map.put("currentMonth", currentMonth);
 		map.put("currentDay", currentDay);
+		map.put("loginId", session.getAttribute("loginId"));
 		return cashbookMapper.selectCashbookListByDay(map);
 	}
 	// 수입과 지출의 합계를 조회하는 서비스
-	public int getSumCashbookPriceByInOut(String cashbookKind, int currentYear, int currentMonth) {
+	public int getSumCashbookPriceByInOut(String cashbookKind, int currentYear, int currentMonth, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cashbookKind", cashbookKind);
 		map.put("currentYear", currentYear);
 		map.put("currentMonth", currentMonth);
+		map.put("loginId", session.getAttribute("loginId"));
 		int sum = cashbookMapper.selectSumCashbookPriceByInOut(map);	// 매퍼는 매개변수를 하나밖에 입력 받지 못한다.->map으로 서비스의 역할은 컨트롤러나 dao의 매개변수를 가공함.
 		return sum;
 	}
 	// 월별 가계부 내용을 호출하는 메서드
-	public List<Map<String, Object>> getCashListByMonth(int currentYear, int currentMonth) {
+	public List<Map<String, Object>> getCashListByMonth(int currentYear, int currentMonth, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentYear", currentYear);
 		map.put("currentMonth", currentMonth);
+		map.put("loginId", session.getAttribute("loginId"));
 		return cashbookMapper.selectCashListByMonth(map);
 	}
 }

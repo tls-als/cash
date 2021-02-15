@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,9 +158,10 @@ public class NoticeService {
 	}
 	
 	// 인덱스화면에서 보여지는 공지사항과 가계부 => 차후 수정: 로그인에서 보여지는 공지리스트와 중복
-	public Map<String, Object> getNoticeListAndInOutList() {
+	public Map<String, Object> getNoticeListAndInOutList(HttpSession session) {
+		String loginId = session.getAttribute("loginId").toString();
 		List<Notice> noticeList = noticeMapper.selectLatesNoticeList();	// 공지리스트를(5개) 출력하는 결과값 호출
-		List<Map<String, Object>> inOutList = cashbookMapper.selectCashInOutList();	// 가계 정보를 호출	=> 따로 분리 추가 작업 필요
+		List<Map<String, Object>> inOutList = cashbookMapper.selectCashInOutList(loginId);	// 가계 정보를 호출	=> 따로 분리 추가 작업 필요
 		Map<String, Object> map = new HashMap<String, Object>();	// 공지와 가계 데이터를 담기 위한 map객체 생성
 		map.put("noticeList", noticeList);
 		map.put("inOutList", inOutList);

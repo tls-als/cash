@@ -5,23 +5,27 @@
   <!-- 마이바티스 xml -->
 <mapper namespace="kr.co.gdu.cash.restmapper.CashbookRestMapper">
 	<!-- 연간 최대 지출/최저 지출 통계 쿼리 -->
-	<select id="selectMaxAndMinOutlayByYear" parameterType="int" resultType="java.util.Map">
+	<select id="selectMaxAndMinOutlayByYear" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 		MAX(case when cashbook_kind= '지출' then cashbook_price END) "maxIncome",
 		MIN(case when cashbook_kind= '지출' then cashbook_price end) "minIncome"
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year}
+		WHERE 
+			YEAR(cashbook_date) = #{year}
+			AND id = #{loginId}
 	</select>
 	<!-- 연간 최대 수입/최저 수입 통계 쿼리 -->
-	<select id="selectMaxAndMinIncomeByYear" parameterType="int" resultType="java.util.Map">
+	<select id="selectMaxAndMinIncomeByYear" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 		MAX(case when cashbook_kind= '수입' then cashbook_price END) "maxIncome",
 		MIN(case when cashbook_kind= '수입' then cashbook_price end) "minIncome"
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year}
+		WHERE 
+			YEAR(cashbook_date) = #{year}
+			AND id = #{loginId}
 	</select>
 	<!-- 월별 평균 지출 통계 쿼리 -->
-	<select id="selectAvgOutlayByMonth" parameterType="int" resultType="java.util.Map">
+	<select id="selectAvgOutlayByMonth" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			YEAR(cashbook_date) year,
 			AVG(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
@@ -38,10 +42,13 @@
 			AVG(case when MONTH(cashbook_date)=12 then cashbook_price END) decem,
 			AVG(case when YEAR(cashbook_date)= #{year} then cashbook_price END) total
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year} AND cashbook_kind = '지출'
+		WHERE 
+			YEAR(cashbook_date) = #{year} 
+			AND cashbook_kind = '지출'
+			AND id = #{loginId}
 	</select>
 	<!-- 월별 평균 수입 통계 쿼리 -->
-	<select id="selectAvgIncomeByMonth" parameterType="int" resultType="java.util.Map">
+	<select id="selectAvgIncomeByMonth" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			YEAR(cashbook_date) year,
 			AVG(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
@@ -58,10 +65,13 @@
 			AVG(case when MONTH(cashbook_date)=12 then cashbook_price END) decem,
 			AVG(case when YEAR(cashbook_date)= #{year} then cashbook_price END) total
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year} AND cashbook_kind = '수입'
+		WHERE 
+			YEAR(cashbook_date) = #{year} 
+			AND cashbook_kind = '수입'
+			AND id = #{loginId}
 	</select>
 	<!-- 1년간 월별 지출 통계 쿼리 -->
-	<select id="selectOutlayPriceByMonth" parameterType="int" resultType="java.util.Map">
+	<select id="selectOutlayPriceByMonth" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			YEAR(cashbook_date) YEAR,
 			SUM(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
@@ -77,10 +87,13 @@
 			SUM(case when MONTH(cashbook_date)=11 then cashbook_price END) nov,
 			SUM(case when MONTH(cashbook_date)=12 then cashbook_price END) decem
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year} AND cashbook_kind = '지출'
+		WHERE 
+			YEAR(cashbook_date) = #{year} 
+			AND cashbook_kind = '지출'
+			AND id = #{loginId}
 	</select>
 	<!-- 1년간 월별 수입 통계 쿼리 -->
-	<select id="selectIncomePriceByMonth" parameterType="int" resultType="java.util.Map">
+	<select id="selectIncomePriceByMonth" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			YEAR(cashbook_date) YEAR,
 			SUM(case when MONTH(cashbook_date)=01 then cashbook_price END) jan,
@@ -96,15 +109,20 @@
 			SUM(case when MONTH(cashbook_date)=11 then cashbook_price END) nov,
 			SUM(case when MONTH(cashbook_date)=12 then cashbook_price END) decem
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year} AND cashbook_kind = '수입'
+		WHERE 
+			YEAR(cashbook_date) = #{year} 
+			AND cashbook_kind = '수입'
+			AND id = #{loginId}
 	</select>
 	<!-- 1년간 수입/지출 합계 조회 쿼리 -->
-	<select id="selectTotalPriceByYear" parameterType="int" resultType="java.util.Map">
+	<select id="selectTotalPriceByYear" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			YEAR(cashbook_date) year,
 			SUM(case when cashbook_kind = '수입' then cashbook_price END) income,
 			SUM(case when cashbook_kind = '지출' then cashbook_price END) outlay
 		FROM cashbook
-		WHERE YEAR(cashbook_date) = #{year}
+		WHERE 
+			YEAR(cashbook_date) = #{year}
+			AND id = #{loginId}
 	</select>
 </mapper>
